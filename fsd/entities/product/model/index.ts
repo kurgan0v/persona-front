@@ -18,6 +18,9 @@ export interface IProduct{
     sale_type?: string
     is_new?: boolean
     promos?: string[]
+    height?: number
+    width?: number
+    length?: number
 }
 
 export interface IProductWithSection extends IProduct{

@@ -70,3 +70,11 @@ export const ProductDeleteFetcher = async (request: string): Promise<void> => {
     });
     return data;
 }
+export const ProductCopyFetcher = async (id: string): Promise<{id: string}> => {
+    const {data} = await $api.post(`/products/copy`, {id}, {
+        headers: {
+            "authorization": `Bearer ${localStorage.getItem('accessToken')}`
+        }
+    });
+    return data;
+}

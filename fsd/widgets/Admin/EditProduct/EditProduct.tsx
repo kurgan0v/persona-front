@@ -17,7 +17,7 @@ import {
 } from "antd";
 import {useMutation, useQuery} from "react-query";
 import {
-    GetProductFetcher,
+    GetProductFetcher, ProductCopyFetcher,
     ProductDeleteFetcher,
     ProductUpdateFetcher,
     ProductUpdateGalleryFetcher
@@ -101,6 +101,7 @@ export default function EditProduct({id}: { id: string }) {
     const {mutateAsync: createSize} = useMutation(SizesCreateOrUpdateFetcher);
     const {mutateAsync: createProductSize} = useMutation(SizesProductUpdateFetcher);
     const {mutateAsync: deleteProduct} = useMutation(ProductDeleteFetcher);
+    const {mutateAsync: copyProduct} = useMutation(ProductCopyFetcher);
     const changeImage = (fileName: string, fileList: UploadFile[]) => {
         const data = {
             id,
@@ -113,6 +114,13 @@ export default function EditProduct({id}: { id: string }) {
     }
     const {Option} = Select;
     if (isError) return notFound();
+    async function createCopy(){
+        if(product?.id){
+            copyProduct(product.id).then((r)=>{
+                push(`/admin/product/${r.id}`)
+            })
+        }
+    }
     return (
         <>
             <h2>{product?.title}</h2>
@@ -200,6 +208,44 @@ export default function EditProduct({id}: { id: string }) {
                         placeholder={'Рубашка из базовой коллекции. Подходит как для деловых совещаний, так и для встреч с друзьями.'}
                         rows={3}  showCount/>
                 </Form.Item>
+                <div className={s.block}>
+                    <h3 className={s.subtitle}>Габариты упаковки</h3>
+                    <Row gutter={30}>
+                        <Col span={4}>
+                            <Form.Item name={'length'} label={'Длина, см'} rules={[
+                                {
+                                    min: 0,
+                                    type: 'number',
+                                    message: 'Недопустимое значение'
+                                }
+                            ]}>
+                                <InputNumber controls={false} placeholder={'10'}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item name={'width'} label={'Ширина, см'} rules={[
+                                {
+                                    min: 0,
+                                    type: 'number',
+                                    message: 'Недопустимое значение'
+                                }
+                            ]}>
+                                <InputNumber controls={false} placeholder={'10'}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item name={'height'} label={'Высота, см'} rules={[
+                                {
+                                    min: 0,
+                                    type: 'number',
+                                    message: 'Недопустимое значение'
+                                }
+                            ]}>
+                                <InputNumber controls={false} placeholder={'10'}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </div>
                 <div className={s.block}>
                     <div className={s.blockHeader}>
                         <h3 className={s.subtitle}>Характеристики</h3>
@@ -337,6 +383,7 @@ export default function EditProduct({id}: { id: string }) {
                         >
                             <Button>Удалить</Button>
                         </Popconfirm>
+                        <Button onClick={createCopy}>Создать копию товара</Button>
                     </div>
                 </Form.Item>
             </Form>
