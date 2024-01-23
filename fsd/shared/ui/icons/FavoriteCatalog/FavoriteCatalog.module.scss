@@ -1,0 +1,28 @@
+.border{
+  color: #fff;
+  transition: .38s ease-in-out;
+}
+.favorite{
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  right: 1rem;
+  color: transparent;
+  transition: .38s ease-in-out;
+  cursor: pointer;
+  &:hover{
+    .border{
+      color: var(--primary);
+    }
+  }
+  &.active{
+    color: var(--primary);
+    .border{
+      color: var(--background);
+    }
+    &:hover{
+      color: var(--primary-dark);
+    }
+  }
+
+}

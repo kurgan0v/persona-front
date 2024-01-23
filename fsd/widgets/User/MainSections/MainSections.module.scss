@@ -1,0 +1,28 @@
+.sections{
+  width: 100%;
+  margin: 0 auto;
+  max-width: 75rem;
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+}
+@media (max-width: 991px) {
+  .sections{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    & > div{
+      grid-column-start: 1;
+      grid-column-end: 3;
+      flex-direction: row;
+    }
+  }
+}
+@media (max-width: 576px){
+  .sections{
+    display: flex;
+    flex-direction: column;
+    & > div{
+      flex-direction: column;
+    }
+  }
+}

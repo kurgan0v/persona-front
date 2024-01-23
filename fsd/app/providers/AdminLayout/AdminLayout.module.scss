@@ -1,0 +1,17 @@
+.layout{
+  background: #F6F7FC;
+}
+.wrapper{
+  max-width: 75rem;
+  margin: 0 auto;
+  transition: .38s ease-in-out;
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+  position: relative;
+}
+.contentMain{
+  flex: 1;
+  padding: 3rem;
+}
+

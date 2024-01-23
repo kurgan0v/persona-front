@@ -1,0 +1,29 @@
+.wrapper{
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+.categories{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0 1rem;
+}
+.category{
+  flex: 1;
+}
+.category:nth-of-type(5){
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+@media (max-width: 991px) {
+  .categories{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 576px) {
+  .categories{
+    grid-template-columns: 1fr;
+  }
+}

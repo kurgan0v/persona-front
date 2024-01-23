@@ -1,0 +1,128 @@
+:root{
+  --swiper-pagination-bullet-width: 1rem;
+  --swiper-pagination-bullet-size: 1rem;
+  --swiper-pagination-color: #fff;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-inactive-color: transparent;
+  --swiper-pagination-bottom: 2rem;
+}
+.swiper-pagination-bullet{
+  border: 1px solid #fff;
+}
+.ant-btn{
+  height: auto;
+  width: max-content;
+}
+.ant-badge .ant-badge-count{
+  background: var(--primary);
+}
+.ant-badge .ant-badge-count{
+  top: 0.25rem;
+  right: 0.25rem;
+}
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item{
+  font-size: 1rem;
+}
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item:hover{
+  background-color: transparent;
+}
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
+  padding: 0.4rem 1rem;
+}
+.ant-select .ant-select-arrow{
+  color: var(--text);
+}
+.ant-select-dropdown{
+  padding: 0;
+}
+.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+  background: var(--primary);
+  color: #fff;
+  font-weight: 400;
+}
+.ant-select-dropdown .ant-select-item-option{
+  padding: 0.5rem 1rem;
+}
+.ant-slider .ant-slider-track, .ant-slider:hover .ant-slider-track{
+  background-color: var(--text);
+}
+.ant-slider:hover .ant-slider-handle::after, .ant-slider .ant-slider-handle::after{
+  box-shadow: 0 0 0 2px var(--text);
+}
+.ant-slider .ant-slider-handle:focus::after{
+  box-shadow: 0 0 0 4px var(--text);
+}
+.ant-collapse{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  background: transparent;
+}
+.ant-collapse-borderless >.ant-collapse-item{
+  border: 1px solid var(--text);
+  border-radius: 3px;
+}
+.ant-select:not(.ant-select-customize-input) .ant-select-selector{
+  border-color: var(--text);
+}
+.ant-collapse-borderless >.ant-collapse-item:last-child{
+  border-bottom: 1px solid var(--text);
+  border-radius: 3px;
+}
+.ant-collapse-header-text{
+  font-weight: 600;
+}
+.ant-collapse-header{
+  flex-direction: row-reverse;
+}
+.ant-collapse>.ant-collapse-item >.ant-collapse-header .ant-collapse-expand-icon{
+  padding-right: 0;
+}
+.ant-select-dropdown{
+  border: 1px solid var(--dark-grey);
+}
+
+.ant-btn-primary{
+  font-weight: 800;
+  padding: 0.8rem 2.5rem;
+}
+.ant-modal-confirm-btns .ant-btn-primary{
+  padding: 3px 15px;
+}
+.ant-divider-horizontal.ant-divider-with-text{
+  border-color: var(--dark-grey);
+}
+.ant-input, .ant-input-password, .ant-input-affix-wrapper, .ant-input-number .ant-input-number-input{
+  padding: 0.7rem;
+  border-color: var(--dark-grey);
+}
+.ant-picker{
+  padding: 0.9rem;
+}
+.ant-form-item-explain-error{
+  margin-bottom: 1rem;
+}
+.ant-select-multiple .ant-select-selector{
+  padding: 0.7rem 4px;
+}
+.ant-select-multiple .ant-select-selection-overflow{
+  gap: 0.5rem;
+}
+.ant-form-vertical .ant-form-item-label{
+  padding-bottom: 0.2rem;
+}
+.ant-popover .ant-popover-inner{
+  max-width: 25rem;
+}
+.ant-radio-wrapper .ant-radio, .ant-radio-wrapper .ant-radio-checked::after, .ant-radio-wrapper .ant-radio-inner{
+  border-radius: 3px;
+}
+.ant-radio-wrapper .ant-radio-inner::after{
+  display: none;
+}
+.ant-radio-wrapper .ant-radio-checked .ant-radio-inner, .ant-radio-wrapper .ant-radio-inner{
+  border-color: var(--text);
+}
+.ant-select .ant-select-arrow .anticon:not(.ant-select-suffix){
+  pointer-events: none;
+}

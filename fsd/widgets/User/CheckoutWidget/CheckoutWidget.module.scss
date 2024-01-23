@@ -1,0 +1,189 @@
+.info{
+  margin-bottom: 1rem;
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem 0;
+  margin: 0 auto;
+  max-width: 75rem;
+  width: 100%;
+  h3{
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+}
+.create{
+  width: 100%;
+}
+.orderInfos{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.orderInfo{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 1rem;
+}
+.select{
+  height: auto;
+}
+.deliveryOption{
+  padding: 0.5rem;
+  border: 1px solid var(--grey);
+  border-radius: 3px;
+  transition: .38s ease-in-out;
+  &:hover{
+    border-color: var(--primary);
+  }
+
+  h5{
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  p{
+    margin-top: 0.3rem;
+    font-size: 0.875rem;
+    color: var(--dark-grey);
+    &:last-of-type{
+      color: var(--text);
+      font-size: 1rem;
+    }
+  }
+}
+.wrapperDeliveryTypes :global(.ant-radio-wrapper-checked) .deliveryOption{
+  border-color: var(--primary);
+}
+.wrapperDeliveryTypes{
+  :global(.ant-radio){
+    display: none;
+  }
+}
+.wrapperDeliveryTypes :global(.ant-radio-wrapper-in-form-item){
+  flex: 1;
+  max-width: 50%;
+}
+.wrapperDeliveryTypes :global(.ant-radio-wrapper span.ant-radio+*){
+  width: 100%;
+}
+.wrapperModalPoints{
+  display: flex;
+  column-gap: 1.25rem;
+  max-height: 35rem;
+  position: relative;
+  overflow: hidden;
+}
+.wrapperPoints{
+  z-index: 2;
+  top: 0;
+  left: 0;
+  max-height: 100%;
+  position: absolute;
+  transition: .38s ease-in-out;
+  overflow-x: visible;
+  overflow-y: hidden;
+  padding-right: 1.5rem;
+  transform: translateX(-100%) translateZ(0);
+  margin-left: 1.5rem;
+  width: 100%;
+  max-width: 20rem;
+  &.visible{
+    margin-left: 0;
+    transform: translateX(0) translateZ(0);
+  }
+}
+.pointsList{
+  display: flex;
+  background: var(--background);
+  flex-direction: column;
+  row-gap: 0.625rem;
+  padding: 1rem 1rem 1rem 0;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  max-height: 560px;
+  min-height: 560px;
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--grey);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--dark-grey);
+  }
+}
+.pointsListSwitcher{
+  background: var(--background);
+  padding: 0.5rem;
+  width: 0.5rem;
+  box-sizing: content-box;
+  cursor: pointer;
+  border-radius: 0 3px 3px 0;
+  height: 1rem;
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  transition: .38s ease-in-out;
+  &:hover{
+    color: var(--primary);
+  }
+}
+.point{
+  display: flex;
+  column-gap: 1rem;
+  border-left: 1px solid var(--grey);
+  padding-left: 0.625rem;
+  transition: .38s ease-in-out;
+  cursor: pointer;
+  svg{
+    transition: .38s ease-in-out;
+  }
+  &.active{
+    border-color: var(--primary);
+    svg{
+      color: var(--primary);
+    }
+  }
+  &:hover{
+    border-color: var(--primary);
+    svg{
+      color: var(--primary);
+    }
+  }
+  svg{
+    min-width: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.pointInfo{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.375rem;
+  h5{
+    font-weight: 700;
+  }
+  p{
+    font-size: 0.875rem;
+  }
+  .btn{
+    font-size: 0.875rem;
+  }
+}
+.chosenPvz{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.agreement{
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  a{
+    text-decoration: underline;
+  }
+}

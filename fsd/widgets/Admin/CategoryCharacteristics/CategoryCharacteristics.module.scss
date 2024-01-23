@@ -1,0 +1,57 @@
+
+.characteristicsTypes{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.characteristicsType{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.characteristicsTypesHeader{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.characteristicsTypesTitle{
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.characteristicHeader{
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  p{
+    font-weight: 700;
+  }
+}
+.characteristics{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+  border-radius: 3px;
+  gap: 1rem;
+  border: 1px solid var(--grey);
+}
+.characteristic{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 3px;
+  padding: 0.5rem;
+  border: 1px solid var(--dark-grey);
+}
+.activeIcon{
+  color: var(--primary);
+}
+.disabledIcon{
+  color: var(--grey);
+}
+.btns{
+  display: flex;
+  align-items:stretch;
+  gap: 1rem;
+}

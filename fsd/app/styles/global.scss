@@ -1,0 +1,29 @@
+@import 'normalize';
+@import 'lib';
+@import 'mixins';
+@import 'variables';
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans-serif);
+  font-size: 16px;
+}
+
+/*body {
+  @include fluid(font-size, 14px, 16px);
+}
+
+.main {
+  @include fluid(font-size, 14px, 16px);
+}*/
+
+h1, h2{
+  font-family: var(--font-linguistics);
+  font-weight: 900;
+  font-size: 2rem;
+}
+@media (max-width: 768px) {
+  h2{
+    font-size: 1.7rem;
+  }
+}

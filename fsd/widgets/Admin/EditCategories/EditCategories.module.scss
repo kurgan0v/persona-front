@@ -1,0 +1,22 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.header{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.categories{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.sections{
+  width: 20rem;
+  height: auto;
+}
+.select{
+  height: auto;
+}

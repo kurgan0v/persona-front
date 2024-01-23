@@ -1,0 +1,26 @@
+.bg{
+  object-fit: cover;
+}
+.wrapper{
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2rem;
+  padding: 3rem 6rem;
+  border-radius: 3px;
+  background: var(--background);
+  position: relative;
+}
+
+
+

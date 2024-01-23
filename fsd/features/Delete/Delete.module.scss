@@ -1,0 +1,8 @@
+.icon{
+  color: var(--text);
+  transition: .38s ease-in-out;
+  cursor: pointer;
+  &:hover{
+    color: var(--primary);
+  }
+}

@@ -1,0 +1,79 @@
+.row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--grey);
+}
+.image{
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.info{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.textInfo{
+  display: flex;
+  flex-direction: column;
+  h3{
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+}
+.actions{
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+.priceWrapper{
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+.price{
+  font-weight: 700;
+}
+.subtotal{
+  min-width: 5rem;
+}
+.newPrice{
+  color: var(--primary);
+}
+.oldPrice{
+  text-decoration: line-through;
+  color: var(--dark-grey);
+}
+.quantity{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.quantityNumber{
+  min-width: 1rem;
+}
+.quantityAction{
+  height: 2rem;
+  width: 2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.disabledAction{
+    opacity: .5;
+    pointer-events: none;
+  }
+}
+.delete{
+  transition: .38s ease-in-out;
+  cursor: pointer;
+  &:hover{
+    color: var(--primary);
+  }
+}
+

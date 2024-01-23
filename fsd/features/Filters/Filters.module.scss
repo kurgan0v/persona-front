@@ -1,0 +1,100 @@
+.options{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  width: 20rem;
+}
+.filterType{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  h3{
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+.filters{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.filterHeader{
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.clear{
+  color: var(--dark-grey);
+  cursor: pointer;
+  transition: .38s ease-in-out;
+  &:hover{
+    color: var(--text);
+  }
+}
+.filter{
+  border-radius: 3px;
+  border: 1px solid var(--text);
+}
+.priceFilter{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.price{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  p{
+    font-weight: 400;
+  }
+}
+.filterOptions{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.filterOption{
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--text);
+  color: var(--text);
+  border-radius: 3px;
+  transition: .38s ease-in-out;
+  cursor: pointer;
+  &:hover{
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+  &.active{
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+}
+.flags{
+  display: flex;
+  column-gap: 1rem;
+  margin: 1rem 0;
+}
+.flag{
+  flex: 1;
+  row-gap: 1rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+.collapse{
+  transition: .38s ease-in-out;
+}
+.activeCollapse{
+  border-color: var(--primary) !important;
+}
+@media (max-width: 450px){
+  .options{
+    width: 100%;
+  }
+  .flag{
+    font-size: 0.9rem;
+  }
+}

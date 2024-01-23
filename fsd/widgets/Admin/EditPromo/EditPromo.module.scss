@@ -1,0 +1,23 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.header{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.promos{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.select{
+  height: auto;
+}
+/*.sections{
+  width: 20rem;
+  height: auto;
+}*/
+

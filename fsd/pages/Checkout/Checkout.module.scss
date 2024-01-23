@@ -1,0 +1,28 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem 0;
+  margin: 0 auto;
+  max-width: 75rem;
+  width: 100%;
+  h3{
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+}
+.create{
+  width: 100%;
+}
+.orderInfos{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.orderInfo{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 1rem;
+}

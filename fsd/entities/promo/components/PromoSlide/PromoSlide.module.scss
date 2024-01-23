@@ -1,0 +1,48 @@
+.slide{
+  height: 29rem;
+  padding: 0 7.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(90deg, rgba(11, 30, 39, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+}
+.image{
+  z-index: -1;
+}
+.slideContent{
+  width: 100%;
+  max-width: 75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 1rem;
+}
+.slide h2, .slide .desc{
+  color: #fff;
+}
+.btn{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.title{
+  font-size: 3rem;
+}
+.desc{
+  font-size: 1.5rem;
+}
+@media (max-width: 991px) {
+  .slide{
+    padding: 0 1rem;
+  }
+  .slideContent{
+    row-gap: 0.5rem;
+  }
+  .title{
+    font-size: 2rem;
+  }
+  .desc{
+    font-size: 1rem;
+  }
+}

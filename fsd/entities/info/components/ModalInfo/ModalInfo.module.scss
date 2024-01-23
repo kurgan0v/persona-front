@@ -1,0 +1,12 @@
+.modalWrapper{
+  display: flex;
+  column-gap: 2rem;
+  h2{
+    margin-bottom: 0.5rem;
+  }
+}
+.modalImg{
+  position: relative;
+  min-width: 15rem;
+  min-height: 100%;
+}

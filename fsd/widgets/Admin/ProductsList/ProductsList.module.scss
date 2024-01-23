@@ -1,0 +1,43 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.header{
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.filters{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.sections{
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+.sectionFilter{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  flex: 1;
+  max-width: 50%;
+}
+.sectionSelect{
+  width: 100%;
+  height: auto;
+}
+.products{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.input{
+  width: 50%;
+  padding-right: 1rem;
+}
+.searchInput{
+  width: 100%;
+}
