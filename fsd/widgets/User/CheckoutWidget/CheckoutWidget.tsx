@@ -107,6 +107,9 @@ export default function CheckoutWidget() {
                 onFinish={(e: IOrderNew) => {
                     if (cart?.items) {
                         createOrder({order: e, items: cart.items}).then(r => {
+                            if(r.paymentInfo) {
+                                window.open(r.paymentInfo.paymentLink)
+                            }
                             cart.setOrderNumber(r.id);
                             cart.clearCart();
                         }).catch(async (e) => {
@@ -137,7 +140,7 @@ export default function CheckoutWidget() {
                             <Form.Item name={['address', 'city_name']} hidden>
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={'Регион'} name={['address', 'region']}>
+                            <Form.Item label={'Регион'} name={['address', 'region']} >
                                 <Select
                                     value={region}
                                     className={s.select}
@@ -145,6 +148,7 @@ export default function CheckoutWidget() {
                                     showSearch
                                     placeholder={'Московская область'}
                                     loading={isLoadingCities}
+                                    aria-autocomplete={'none'}
                                     options={
                                         regions?.map(el => (
                                             {
@@ -161,7 +165,7 @@ export default function CheckoutWidget() {
                                 />
                             </Form.Item>
                             {isSuccessCities && <Form.Item label={'Город'} name={['address', 'city']}>
-                                <Select value={city?.code ? `${city?.code}` : null} onChange={(e, v) => {
+                                <Select value={city?.code ? `${city?.code}` : null} aria-autocomplete={'none'} onChange={(e, v) => {
                                     const currentCity = cities?.find(c => `${c.code}` === e);
                                     setCity(currentCity)
                                     form.setFieldValue(['address', 'city_name'], currentCity?.city)
@@ -275,6 +279,15 @@ export default function CheckoutWidget() {
                             <p className={s.info}>
                                 После оформления заказа на почту, указанную в заказе, придет счет для оплаты
                             </p>
+                            <Form.Item label={'Тип организации'} name={['requisites', 'type']}>
+                                <Radio.Group>
+                                    <Radio value={'ip'}>Физ. лицо</Radio>
+                                    <Radio value={'company'}>Юр. лицо</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                            <Form.Item label={'Наименование покупателя или заказчика'} name={['requisites', 'name']}>
+                                <Input placeholder={"Название организации или ФИО"}/>
+                            </Form.Item>
                             <Form.Item label={'ИНН'} name={['requisites', 'inn']} rules={[
                                 () => ({
                                     validator(_, value) {

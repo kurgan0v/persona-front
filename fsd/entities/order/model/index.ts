@@ -18,6 +18,10 @@ export interface IOrder{
     updatedAt: string
     OrderItems: IOrderItem[]
     comment?: string
+    paymentInfo?: {
+        status: string
+        paymentLink: string
+    }
 }
 export interface IOrderItem {
     id: string

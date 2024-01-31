@@ -10,8 +10,9 @@ interface Props{
     changeImage: (fileName: string, fileList: UploadFile[]) => void
     setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>
     maxLength?: number
+    multiple?: boolean
 }
-const UploadImage = ({list, changeImage, setFileList, maxLength}: Props) => {
+const UploadImage = ({list, changeImage, setFileList, maxLength, multiple}: Props) => {
     const { modal } = App.useApp();
     const {mutateAsync: uploadFile} = useMutation(UploadFileFetcher);
     const {mutateAsync: deleteFile} = useMutation(DeleteFileFetcher);
@@ -61,7 +62,7 @@ const UploadImage = ({list, changeImage, setFileList, maxLength}: Props) => {
 
     };
     return (
-        <Upload {...props}>
+        <Upload {...props} multiple={!!multiple}>
             {list.length >= (maxLength ?? 1) ? null : <Button icon={<UploadOutlined/>}></Button>}
         </Upload>
     );

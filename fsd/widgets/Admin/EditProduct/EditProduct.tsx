@@ -132,7 +132,8 @@ export default function EditProduct({id}: { id: string }) {
                         ...e,
                         id: product?.id
                     }).then(()=>{
-                        push('/admin/products')
+                        window.close()
+                        //push('/admin/products')
                     })
                 }}
             >
@@ -188,7 +189,7 @@ export default function EditProduct({id}: { id: string }) {
                     </Col>
                 </Row>
                 <Form.Item label={'Галерея'}>
-                    <UploadImage list={image} changeImage={changeImage} setFileList={setImage} maxLength={10}/>
+                    <UploadImage list={image} changeImage={changeImage} setFileList={setImage} maxLength={10} multiple={true}/>
                 </Form.Item>
                 <Form.Item name={'promos'} label={'Промо-акции'}>
                     <Select
@@ -373,7 +374,8 @@ export default function EditProduct({id}: { id: string }) {
                             onConfirm={()=>{
                                 if(product?.id){
                                     deleteProduct(product.id).then((r)=>{
-                                        push('/admin/products')
+                                        //push('/admin/products')
+                                        window.close()
                                     })
                                 }
                             }}
