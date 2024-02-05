@@ -13,7 +13,7 @@ export interface IOrder{
     delivery_type: number
     payment_method: number
     delivery_status: number
-    online_payment_status?: number
+    online_payment_status: number
     createdAt: string
     updatedAt: string
     OrderItems: IOrderItem[]

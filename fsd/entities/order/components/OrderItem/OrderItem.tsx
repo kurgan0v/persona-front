@@ -19,44 +19,66 @@ import EditIcon from "@/fsd/shared/ui/icons/EditIcon/EditIcon";
 import {IOrder, IOrderItem} from "@/fsd/entities/order/model";
 import Link from "next/link";
 import {add} from "unload";
-interface OrderItemProps{
+
+interface OrderItemProps {
     order: IOrder
-    setEditModal: ()=>void
+    setEditModal: () => void
 }
 
-export default function OrderItem({order, setEditModal}: OrderItemProps){
-    const status = [s.new, s.processing, s.processing, s.processing, s.processing, s.processing, s.processing, s.closed, s.cancelled];
+export default function OrderItem({order, setEditModal}: OrderItemProps) {
+    const status = [s.processing, s.processing, s.processing, s.closed, s.cancelled, s.processing];
     const [open, setOpen] = useState(false);
     const address: string[] = [];
-    if(order.address){
+    if (order.address) {
         order.address.address && address.push(`${order.address.address}`)
         order.address.entrance && address.push(`подъезд ${order.address.entrance}`)
         order.address.apartment && address.push(`кв. ${order.address.apartment}`)
         order.address.floor && address.push(`этаж ${order.address.floor}`)
         order.address.code && address.push(`домофон ${order.address.code}`)
     }
-    const subtotal = order.OrderItems.reduce((a, b)=>(a + b.quantity * (b.sale_price ?? b.price)), 0);
-    return(
+    const subtotal = order.OrderItems.reduce((a, b) => (a + b.quantity * (b.sale_price ?? b.price)), 0);
+    return (
         <div className={s.wrapper}>
-            <div className={s.header} >
-                <div className={s.headerContent} onClick={()=>{setOpen(!open)}}>
+            <div className={s.header}>
+                <div className={s.headerContent} onClick={() => {
+                    setOpen(!open)
+                }}>
                     <b className={s.info}>№{order.id}</b>
                     <div><p className={clsx(s.status, status[order.status])}>{ORDER_STATUSES[order.status]}</p></div>
                     <div>{dayjs(order.createdAt).format('DD.MM.YYYY HH:mm')}</div>
-                    <CaretRightOutlined className={clsx(s.arrow, open && s.active)} />
+                    <CaretRightOutlined className={clsx(s.arrow, open && s.active)}/>
                 </div>
                 <EditIcon onClick={setEditModal}/>
             </div>
+
             <div className={clsx(s.details, open && s.active)}>
                 <div className={s.items}>
+                    <div className={s.statuses}>
+                        <div className={clsx(order.status === 0 && s.active, order.status > 0 && s.completed)}>
+                            <h5>В обработке</h5>
+                        </div>
+                        {order.payment_method < 2 && <div className={clsx(order.status === 1 && s.active, order.status > 1 && s.completed)}>
+                            <h5>Оплата</h5>
+                            <p>{ONLINE_PAYMENT_STATUSES[order.online_payment_status]}</p>
+                        </div>}
+                        <div className={clsx(order.status === 2 && s.active, order.status > 2 && s.completed)}>
+                            <h5>Доставка</h5>
+                            <p>{DELIVERY_STATUSES[order.delivery_status]}</p>
+                        </div>
+                        <div className={clsx(order.status === 5 && s.active, order.status >= 3 && s.completed)}>
+                            <h5>{order.status > 3 ? ORDER_STATUSES[order.status] : 'Выполнен'}</h5>
+                        </div>
+                    </div>
                     {order.OrderItems.map(el => (
                         <div className={s.item} key={el.id}>
                             <div className={s.info}>
                                 <div className={s.image}>
-                                    <CustomImage src={el.product?.gallery[0] ?? ''} alt={''} fill/>
+                                    <CustomImage src={el.product?.gallery ? el.product?.gallery[0] : ''} alt={''} fill/>
                                 </div>
                                 <div className={s.textInfo}>
-                                    <div className={s.itemHeader}>{el.product ? <Link href={`/admin/product/${el.product_id}`} key={el.id} target={'_blank'}>{el.title}</Link> : <h3>{el.title}</h3>}</div>
+                                    <div className={s.itemHeader}>{el.product ?
+                                        <Link href={`/admin/product/${el.product_id}`} key={el.id}
+                                              target={'_blank'}>{el.title}</Link> : <h3>{el.title}</h3>}</div>
                                     <p>Размер: {el.size_name}</p>
                                 </div>
                             </div>
@@ -92,30 +114,36 @@ export default function OrderItem({order, setEditModal}: OrderItemProps){
                 </div>
                 <div className={s.orderDetails}>
                     <div className={s.orderDetail}>
-                        <p className={clsx(s.statusDetail, s.statusDelivery)}><b>Статус доставки:</b> <span className={s.detailStatus}>{DELIVERY_STATUSES[order.delivery_status]}</span></p>
-                        <p><b>Способ доставки:</b> {DELIVERY_TYPES[order.delivery_type]} </p>
+                        {/*<p className={clsx(s.statusDetail, s.statusDelivery)}><b>Статус доставки:</b> <span
+                            className={s.detailStatus}>{DELIVERY_STATUSES[order.delivery_status]}</span></p>*/}
+                        <p><b>Способ доставки:</b> {DELIVERY_TYPES[order.delivery_type]}</p>
                         {order.address && <>
                             <p><b>Тип доставки:</b> {order.address?.type === 137 ? 'Курьером' : 'ПВЗ'}</p>
-                        </>}
-                        {order.address?.type === 137 ? <>
-                            <p><b>Регион:</b> {order.address.region_name}</p>
-                            <p><b>Город:</b> {order.address.city_name}</p>
-                            <p><b>Адрес:</b> {address.join(', ')}</p>
-                        </>: <>
-                            <p><b>ПВЗ:</b> {order.address?.pvz}</p>
-                            <p><b>Адрес ПВЗ:</b> {order.address?.pvz_address}</p>
-                        </>}
+                            {order.address?.type === 137 ? <>
+                                <p><b>Регион:</b> {order.address.region_name}</p>
+                                <p><b>Город:</b> {order.address.city_name}</p>
+                                <p><b>Адрес:</b> {address.join(', ')}</p>
+                            </> : <>
+                                <p><b>ПВЗ:</b> {order.address?.pvz}</p>
+                                <p><b>Адрес ПВЗ:</b> {order.address?.pvz_address}</p>
+                            </>}</>}
                     </div>
                     <div className={s.orderDetail}>
-                        {(order.online_payment_status !== null && order.online_payment_status !== undefined) && <p className={s.statusDetail}><b>Статус оплаты:</b> <span className={s.detailStatus}>{ONLINE_PAYMENT_STATUSES[order.online_payment_status]}</span></p>}
+                        {/*{(order.online_payment_status !== null && order.online_payment_status !== undefined) &&
+                            <p className={s.statusDetail}><b>Статус оплаты:</b> <span
+                                className={s.detailStatus}>{ONLINE_PAYMENT_STATUSES[order.online_payment_status]}</span>
+                            </p>}*/}
                         <p><b>Способ оплаты:</b> {PAYMENT_METHODS[order.payment_method]}</p>
                         {order.requisites && <div>
                             <b>Реквизиты:</b>
+                            {order.requisites.type && <p>{order.requisites.type === 'ip' ? 'Физ.лицо' : 'Юр.лицо'}</p>}
+                            {order.requisites.name && <p>Плательщик: {order.requisites.name}</p>}
                             {order.requisites.inn && <p>ИНН: {order.requisites.inn}</p>}
                             {order.requisites.kpp && <p>КПП: {order.requisites.kpp}</p>}
                             {order.requisites.bik && <p>БИК: {order.requisites.bik}</p>}
                             {order.requisites.checking_account && <p>Р./сч. {order.requisites.checking_account}</p>}
-                            {order.requisites.correspondent_account && <p>Корр./сч. {order.requisites.correspondent_account}</p>}
+                            {order.requisites.correspondent_account &&
+                                <p>Корр./сч. {order.requisites.correspondent_account}</p>}
                         </div>}
                     </div>
                 </div>

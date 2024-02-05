@@ -42,6 +42,7 @@ import {ISize} from "@/fsd/entities/size/model";
 import {clsx} from "clsx";
 import {ICategory} from "@/fsd/entities/category/model";
 import {PromosFetcher} from "@/fsd/shared/api/promo";
+import {IProduct} from "@/fsd/entities/product/model";
 
 export default function EditProduct({id}: { id: string }) {
     const {push} = useRouter();
@@ -116,8 +117,14 @@ export default function EditProduct({id}: { id: string }) {
     if (isError) return notFound();
     async function createCopy(){
         if(product?.id){
-            copyProduct(product.id).then((r)=>{
-                push(`/admin/product/${r.id}`)
+            const data:IProduct = await form.getFieldsValue()
+            updateProduct({
+                ...data,
+                id: product.id
+            }).then((r)=>{
+                copyProduct(product.id).then((r)=>{
+                    push(`/admin/product/${r.id}`)
+                })
             })
         }
     }

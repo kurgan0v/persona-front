@@ -80,6 +80,58 @@
   flex-direction: column;
   row-gap: 1rem;
 }
+.statuses{
+  display: flex;
+  justify-content: space-between;
+  div{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    p{
+      display: none;
+    }
+
+    &.completed{
+      h5{
+        color: var(--dark-grey);
+        &::before{
+          background: var(--dark-grey);
+        }
+      }
+      p{
+        display: block;
+        color: var(--grey);
+      }
+    }
+    &.active{
+      h5{
+        color: var(--primary);
+        &::before{
+          background: var(--primary);
+          border-color: var(--primary);
+        }
+      }
+      p{
+        display: block;
+      }
+    }
+  }
+  h5{
+    color: var(--dark-grey);
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+    &::before{
+      content: "";
+      min-width: 1rem;
+      height: 1rem;
+      border-radius: 1rem;
+      background: var(--background);
+      border: 1px solid var(--dark-grey);
+    }
+
+  }
+}
 .item{
   display: flex;
   align-items: center;

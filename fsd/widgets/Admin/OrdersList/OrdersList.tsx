@@ -95,7 +95,7 @@ export default function OrdersList() {
                     </Form.Item>
                     <Form.Item name={'status'} label={'Статус заказа'}>
                         <Select className={s.select}>
-                            {ORDER_STATUSES.filter(el => el !== 'Выполнен').map((t, i) => <Select.Option value={i} key={i}>{t}</Select.Option>)}
+                            {ORDER_STATUSES.map((t, i) => <Select.Option value={i} key={i}>{t}</Select.Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item name={'comment'} label={'Информация о заказе'}>
