@@ -13,7 +13,7 @@ interface Props{
     multiple?: boolean
 }
 const UploadImage = ({list, changeImage, setFileList, maxLength, multiple}: Props) => {
-    const { modal } = App.useApp();
+    const { modal, message } = App.useApp();
     const {mutateAsync: uploadFile} = useMutation(UploadFileFetcher);
     const {mutateAsync: deleteFile} = useMutation(DeleteFileFetcher);
     const props: UploadProps = {
@@ -33,13 +33,20 @@ const UploadImage = ({list, changeImage, setFileList, maxLength, multiple}: Prop
             })
         },
         onChange: ({ file, fileList, event }) => {
-            setFileList(fileList)
-            if(file.status === 'done'){
-                changeImage(file.response, fileList);
+            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml' || file.type === 'image/webp';
+            if (!isJpgOrPng) {
+                message.error('Загружаемый файл не является изображением!');
+            } else {
+                setFileList(fileList)
+                if(file.status === 'done'){
+                    changeImage(file.response, fileList);
+
+                }
+                if(file.status === 'removed'){
+                    changeImage('', fileList);
+                }
             }
-            if(file.status === 'removed'){
-                changeImage('', fileList);
-            }
+
         },
         onRemove: async (file) => {
             return new Promise((resolve, reject) => {

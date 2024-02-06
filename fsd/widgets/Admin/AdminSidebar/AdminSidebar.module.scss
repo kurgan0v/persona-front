@@ -41,7 +41,11 @@
   border-left: 1px solid var(--grey);
   &:hover{
     color: var(--primary);
-    border-color: var(--primary);;
+    border-color: var(--primary);
+  }
+  &.active{
+    color: var(--primary);
+    border-color: var(--primary);
   }
 }
 .exit{

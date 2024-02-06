@@ -54,7 +54,7 @@ export default function RequestsList() {
                 </Form>
 
                 <div className={s.list}>
-                    {requests?.requests.length ? requests?.requests.map((el) =>
+                    {requests?.requests?.length ? requests?.requests.map((el) =>
                             <RequestItem
                                 request={el}
                                 key={el.id}

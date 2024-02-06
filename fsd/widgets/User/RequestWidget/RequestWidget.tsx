@@ -21,8 +21,13 @@ export default function RequestWidget(){
                 e.onSuccess("Ok");
             }
         },
-        onChange: ({ fileList }) => {
-            setList(fileList);
+        onChange: ({ fileList, file }) => {
+            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp';
+            if (!isJpgOrPng) {
+                message.error('Загружаемый файл не является изображением!');
+            } else {
+                setList(fileList);
+            }
         }
     };
     return(
@@ -45,7 +50,7 @@ export default function RequestWidget(){
                     onFinish={async (e)=>{
                         const data = new FormData();
                         for(let key in e){
-                            if(e[key]){
+                            if(e[key] !== undefined && e[key] !== null){
                                 data.append(key, e[key]);
                             }
                         }

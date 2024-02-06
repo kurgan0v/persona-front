@@ -9,8 +9,8 @@ export default function ProductCardBasic({product}:{product: IProductDetail}){
                 <CustomImage src={product?.gallery?.length ? product.gallery[0] : ''} alt={product.title} fill/>
             </div>
             <div className={s.prices}>
-                <p className={clsx(s.price, product.sale && s.oldPrice)}>{product.basic_price} ₽</p>
-                {product.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? product.basic_price * (100 - product.sale)/100 : product.basic_price - product.sale} ₽</p>}
+                <p className={clsx(s.price, product.sale && s.oldPrice)}>{product.basic_price.toLocaleString()} ₽</p>
+                {product.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? (product.basic_price * (100 - product.sale)/100).toLocaleString() : (product.basic_price - product.sale).toLocaleString()} ₽</p>}
             </div>
             <p className={s.title}>{product.title}</p>
         </div>

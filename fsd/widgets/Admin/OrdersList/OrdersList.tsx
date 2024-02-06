@@ -53,7 +53,7 @@ export default function OrdersList() {
                     </Row>
                 </Form>
                 <div className={s.list}>
-                    {orders?.orders.length ? orders?.orders.map((el) =>
+                    {orders?.orders?.length ? orders?.orders.map((el) =>
                             <OrderItem
                                 order={el}
                                 key={el.id}
@@ -104,12 +104,12 @@ export default function OrdersList() {
                     <Form.Item>
                         <div className={s.orderActions}>
                             <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
-                            <Button onClick={()=>{
+                            {/*<Button onClick={()=>{
                                 form.setFieldValue('status', 7)
                                 form.setFieldValue('delivery_status', 3)
                                 form.setFieldValue('online_payment_status', 4)
                                 form.submit()
-                            }}>Завершить заказ</Button>
+                            }}>Завершить заказ</Button>*/}
                         </div>
                     </Form.Item>
                 </Form>

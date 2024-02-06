@@ -54,8 +54,8 @@ export default function ProductForm({product}: {product: IProductDetail}){
             </div>
             <div className={s.actions}>
                 <div className={s.priceWrapper}>
-                    <p className={clsx(s.price, product.sale && s.oldPrice)}>{product.basic_price} ₽</p>
-                    {product.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? product.basic_price * (100 - product.sale)/100 : product.basic_price - product.sale} ₽</p>}
+                    <p className={clsx(s.price, product.sale && s.oldPrice)}>{product.basic_price.toLocaleString()} ₽</p>
+                    {product.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? (product.basic_price * (100 - product.sale)/100).toLocaleString() : (product.basic_price - product.sale).toLocaleString()} ₽</p>}
                 </div>
                 <div className={s.actionsMain}>
                     {cartStore?.items.find(el => el.product_id === product.id && el.size_id === currentSize)?.quantity ? <div className={s.quantity}>
@@ -118,7 +118,7 @@ export default function ProductForm({product}: {product: IProductDetail}){
                     form={form}
                     initialValues={{
                         type: 1,
-                        product: product.id
+                        product_id: product.id
                     }}
                     layout={'vertical'}
                     onFinish={async (e)=>{
@@ -140,7 +140,7 @@ export default function ProductForm({product}: {product: IProductDetail}){
                     <Form.Item name={'type'} hidden>
                         <Input/>
                     </Form.Item>
-                    <Form.Item name={'product'} hidden>
+                    <Form.Item name={'product_id'} hidden>
                         <Input/>
                     </Form.Item>
                     <Form.Item name={'name'} label={'Ваше имя'} rules={[{

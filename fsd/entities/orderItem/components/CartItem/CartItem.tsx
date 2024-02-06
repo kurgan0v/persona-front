@@ -47,8 +47,8 @@ export default function CartItem({item, product}: {item: ICartItem, product?: IP
             <div className={s.actions}>
                 {quantity > 0 ? <>
                     <div className={s.priceWrapper}>
-                        <p className={clsx(s.price, product?.sale && s.oldPrice)}>{product?.basic_price} ₽</p>
-                        {product?.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? product.basic_price * (100 - product.sale)/100 : product.basic_price - product.sale} ₽</p>}
+                        <p className={clsx(s.price, product?.sale && s.oldPrice)}>{product?.basic_price.toLocaleString()} ₽</p>
+                        {product?.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? (product.basic_price * (100 - product.sale)/100).toLocaleString() : (product.basic_price - product.sale).toLocaleString()} ₽</p>}
                     </div>
                     <div className={s.quantity}>
                         <Button className={s.quantityAction} onClick={minus}>
