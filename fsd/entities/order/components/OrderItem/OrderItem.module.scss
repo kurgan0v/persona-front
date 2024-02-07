@@ -83,7 +83,7 @@
 .statuses{
   display: flex;
   justify-content: space-between;
-  div{
+  & > div{
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -218,5 +218,13 @@
     &:last-of-type{
       font-weight: 700;
     }
+  }
+}
+.paymentLink{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  *{
+    font-size: 0.875rem;
   }
 }

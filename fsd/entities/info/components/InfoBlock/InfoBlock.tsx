@@ -11,7 +11,7 @@ export default function InfoBlock({info, onEditClick}:InfoBlockProps){
     return(
         <div className={s.wrapper}>
             <div className={s.img}>
-                <CustomImage src={info.cover} alt={info.name} fill/>
+                <CustomImage src={info.cover} alt={info.name} width={400} height={400}/>
             </div>
             <div className={s.content}>
                 <div className={s.header}>

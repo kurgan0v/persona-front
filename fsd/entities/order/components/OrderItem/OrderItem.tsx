@@ -14,7 +14,7 @@ import {clsx} from "clsx";
 import {CaretRightOutlined} from "@ant-design/icons";
 import React, {useState} from "react";
 import {UploadFile} from "antd/es/upload/interface";
-import {Modal} from "antd";
+import {App, Modal} from "antd";
 import EditIcon from "@/fsd/shared/ui/icons/EditIcon/EditIcon";
 import {IOrder, IOrderItem} from "@/fsd/entities/order/model";
 import Link from "next/link";
@@ -26,6 +26,7 @@ interface OrderItemProps {
 }
 
 export default function OrderItem({order, setEditModal}: OrderItemProps) {
+    const {message} = App.useApp();
     const status = [s.processing, s.processing, s.processing, s.closed, s.cancelled, s.processing];
     const [open, setOpen] = useState(false);
     const address: string[] = [];
@@ -60,6 +61,7 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
                         {order.payment_method < 2 && <div className={clsx(order.status === 1 && s.active, order.status > 1 && s.completed)}>
                             <h5>Оплата</h5>
                             <p>{ONLINE_PAYMENT_STATUSES[order.online_payment_status]}</p>
+
                         </div>}
                         <div className={clsx(order.status === 2 && s.active, order.status > 2 && s.completed)}>
                             <h5>Доставка</h5>
@@ -69,6 +71,12 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
                             <h5>{order.status > 3 ? ORDER_STATUSES[order.status] : 'Выполнен'}</h5>
                         </div>
                     </div>
+                    {order.payment_method === 0 && order.status === 1 && <div className={s.paymentLink}>
+                        <p>Ссылка для оплаты:</p>
+                        <a onClick={(e) => {
+                            navigator.clipboard.writeText(order.payment_link ?? '').then(r => message.success('Ссылка скопирована в буфер обмена'))
+                        }}>{order.payment_link}</a>
+                    </div>}
                     {order.OrderItems.map(el => (
                         <div className={s.item} key={el.id}>
                             <div className={s.info}>
