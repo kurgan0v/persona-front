@@ -38,4 +38,5 @@ export interface IOrderItem {
     sale_price?: number
     product?: IProduct
     size?: ISize
+    reserved_to?: string
 }

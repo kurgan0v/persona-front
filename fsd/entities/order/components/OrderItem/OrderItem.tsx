@@ -1,5 +1,4 @@
 import s from './OrderItem.module.scss';
-import {IRequest} from "@/fsd/entities/request/model";
 import CustomImage from "@/fsd/shared/ui/CustomImage/CustomImage";
 import {
     DELIVERY_STATUSES,
@@ -12,13 +11,13 @@ import {
 import dayjs from "dayjs";
 import {clsx} from "clsx";
 import {CaretRightOutlined} from "@ant-design/icons";
-import React, {useState} from "react";
-import {UploadFile} from "antd/es/upload/interface";
-import {App, Modal} from "antd";
+import React, {useMemo, useState} from "react";
+import {App, Button, Form, Modal, Switch, Tooltip} from "antd";
 import EditIcon from "@/fsd/shared/ui/icons/EditIcon/EditIcon";
-import {IOrder, IOrderItem} from "@/fsd/entities/order/model";
+import {IOrder} from "@/fsd/entities/order/model";
 import Link from "next/link";
-import {add} from "unload";
+import {useMutation} from "react-query";
+import {CheckInvoiceStatus, GetInvoiceDocument, OrderReserve, OrderUnreserve} from '@/fsd/shared/api/payment';
 
 interface OrderItemProps {
     order: IOrder
@@ -26,9 +25,41 @@ interface OrderItemProps {
 }
 
 export default function OrderItem({order, setEditModal}: OrderItemProps) {
+    const {mutateAsync: checkInvoiceStatus, data: dataOrder, isLoading} = useMutation(CheckInvoiceStatus);
+    const {mutateAsync: getInvoiceDocument} = useMutation(GetInvoiceDocument);
+    const {mutateAsync: reserveItems} = useMutation(OrderReserve);
+    const {mutateAsync: unreserveItems} = useMutation(OrderUnreserve);
+    const statuses = useMemo(()=>{
+        const orderInfo = dataOrder ? dataOrder : order;
+        return <div className={s.statuses}>
+            <div className={clsx(orderInfo.status === 0 && s.active, orderInfo.status > 0 && s.completed)}>
+                <h5>В обработке</h5>
+            </div>
+            {orderInfo.payment_method < 2 && <div className={clsx(orderInfo.status === 1 && s.active, orderInfo.status > 1 && s.completed)}>
+                <h5>Оплата</h5>
+                <p>
+                    {ONLINE_PAYMENT_STATUSES[orderInfo.online_payment_status]}
+                    {orderInfo.payment_approved && orderInfo.online_payment_status === 1 && <Tooltip title={'Оплата подтверждена банком'}> ✅</Tooltip>}
+                </p>
+                {orderInfo.invoice_id && <Button loading={isLoading} className={s.checkPayment} onClick={()=>{
+                    if(order.invoice_id){
+                        checkInvoiceStatus(order.invoice_id)
+                    }
+                }}>Проверить оплату</Button>}
+            </div>}
+            <div className={clsx(orderInfo.status === 2 && s.active, orderInfo.status > 2 && s.completed)}>
+                <h5>Доставка</h5>
+                <p>{DELIVERY_STATUSES[orderInfo.delivery_status]}</p>
+            </div>
+            <div className={clsx(orderInfo.status === 5 && s.active, orderInfo.status >= 3 && s.completed)}>
+                <h5>{orderInfo.status > 3 ? ORDER_STATUSES[orderInfo.status] : 'Выполнен'}</h5>
+            </div>
+        </div>
+    }, [dataOrder])
     const {message} = App.useApp();
     const status = [s.processing, s.processing, s.processing, s.closed, s.cancelled, s.processing];
     const [open, setOpen] = useState(false);
+    const [reserved, setReserved] = useState(!!order.OrderItems[0].reserved_to)
     const address: string[] = [];
     if (order.address) {
         order.address.address && address.push(`${order.address.address}`)
@@ -54,23 +85,18 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
 
             <div className={clsx(s.details, open && s.active)}>
                 <div className={s.items}>
-                    <div className={s.statuses}>
-                        <div className={clsx(order.status === 0 && s.active, order.status > 0 && s.completed)}>
-                            <h5>В обработке</h5>
-                        </div>
-                        {order.payment_method < 2 && <div className={clsx(order.status === 1 && s.active, order.status > 1 && s.completed)}>
-                            <h5>Оплата</h5>
-                            <p>{ONLINE_PAYMENT_STATUSES[order.online_payment_status]}</p>
-
-                        </div>}
-                        <div className={clsx(order.status === 2 && s.active, order.status > 2 && s.completed)}>
-                            <h5>Доставка</h5>
-                            <p>{DELIVERY_STATUSES[order.delivery_status]}</p>
-                        </div>
-                        <div className={clsx(order.status === 5 && s.active, order.status >= 3 && s.completed)}>
-                            <h5>{order.status > 3 ? ORDER_STATUSES[order.status] : 'Выполнен'}</h5>
-                        </div>
+                    <div className={s.reserve}>
+                        <Switch checked={reserved} onChange={async ()=>{
+                            if(reserved){
+                                await unreserveItems(order.id)
+                            } else {
+                                await reserveItems(order.id)
+                            }
+                            setReserved(!reserved)
+                        }}/>
+                        <p>Резерв на позиции</p>
                     </div>
+                    {statuses}
                     {order.payment_method === 0 && order.status === 1 && <div className={s.paymentLink}>
                         <p>Ссылка для оплаты:</p>
                         <a onClick={(e) => {
@@ -152,6 +178,14 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
                             {order.requisites.checking_account && <p>Р./сч. {order.requisites.checking_account}</p>}
                             {order.requisites.correspondent_account &&
                                 <p>Корр./сч. {order.requisites.correspondent_account}</p>}
+                            <a className={s.checkPayment} onClick={()=>{
+                                if(order.invoice_id){
+                                    getInvoiceDocument(order.invoice_id).then(r => {
+                                        const blobURL = URL.createObjectURL(r);
+                                        window.open(blobURL, '_blank');
+                                    })
+                                }
+                            }}>Скачать счет</a>
                         </div>}
                     </div>
                 </div>

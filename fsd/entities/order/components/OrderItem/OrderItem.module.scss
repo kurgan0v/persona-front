@@ -228,3 +228,16 @@
     font-size: 0.875rem;
   }
 }
+.checkPayment{
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-size: 0.875rem;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+.reserve{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
