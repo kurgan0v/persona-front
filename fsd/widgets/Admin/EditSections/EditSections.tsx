@@ -8,6 +8,7 @@ import {UploadFile} from "antd/es/upload/interface";
 import {useMutation, useQuery} from "react-query";
 import {SectionsAllFetcher, SectionUpdateFetcher} from "@/fsd/shared/api/section";
 import {ISection} from "@/fsd/entities/section/model";
+import {SectionUpdateFetcherRequest} from "@/fsd/shared/api/section/types";
 
 export default function EditSections(){
     const [form] = Form.useForm();
@@ -17,7 +18,6 @@ export default function EditSections(){
     const {
         data: sections,
         isSuccess,
-        isError,
         refetch: refetchSections
     } = useQuery(['sections_all'], SectionsAllFetcher);
     const choseSection = (section: ISection) => {
@@ -27,6 +27,7 @@ export default function EditSections(){
             uid: '-1',
             name: section.cover,
             status: 'done',
+            type: 'image/webp',
             url: `${process.env.APP_BASE_URL}/files/${section.cover}`,
             response: section.cover
         }] : [])
@@ -38,17 +39,18 @@ export default function EditSections(){
                 id: editingSection,
                 cover: fileName
             }
-            updateSection(data).then(res => {
-                message.success('Обложка раздела обновлена').then()
-                refetchSections().then();
+            updateSection(data).then(async (res) => {
+                await message.success('Обложка раздела обновлена')
+                await refetchSections();
             })
         }
     }
 
-    const onFinishForm = async (values: { id: string, name?: string }) => {
+    const onFinishForm = async (values: SectionUpdateFetcherRequest) => {
         await updateSection(values);
         setEditingSection(undefined);
-        refetchSections().then();
+        await message.success('Данные раздела обновлены')
+        await refetchSections();
     }
     return(
         <div className={s.wrapper}>
@@ -73,7 +75,12 @@ export default function EditSections(){
                     <Form.Item label={'Обложка раздела'}>
                         <UploadImage list={image} changeImage={changeImage} setFileList={setImage}/>
                     </Form.Item>
-                    <Form.Item name={'name'} label={'Отображаемое название'}>
+                    <Form.Item name={'name'} label={'Отображаемое название'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         <Input/>
                     </Form.Item>
                     <Form.Item name={'seo_title'} label={'SEO заголовок'}>

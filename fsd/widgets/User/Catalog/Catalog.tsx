@@ -4,7 +4,6 @@ import Filters from "@/fsd/features/Filters/Filters";
 import ProductCard from "@/fsd/entities/product/components/ProductCard/ProductCard";
 import Empty from "@/fsd/shared/ui/Empty/Empty";
 import {useQuery} from "react-query";
-import {notFound} from "next/navigation";
 import {Breadcrumb, Pagination} from "antd";
 import Link from "next/link";
 import {useState} from "react";
@@ -14,9 +13,8 @@ import {GetCategoryInfoFetcher} from "@/fsd/shared/api/category";
 export default function Catalog({params, promo}:{params?: { category?: string , section: string}, promo?: string}) {
     const [products, setProducts] = useState<IProductDetail[]>([]);
     const [productCount, setProductCount] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState<number|undefined>(undefined);
     const {data, isSuccess, isError} = useQuery([params?.section ?? 'no-section', params?.category ?? 'no-category', promo ?? 'no-promo'], ()=>GetCategoryInfoFetcher({...params, promo}));
-    if (isError) return notFound();
     const breadcrumbs = [
         {
             title: <Link href={'/catalog'}>Каталог</Link>,
@@ -54,7 +52,7 @@ export default function Catalog({params, promo}:{params?: { category?: string , 
                         <p className={s.count}>Найдено: {productCount}</p>
                     </div>
                     {products.length ? <div className={s.wrapperProducts}>{products.map(product => (
-                        <ProductCard product={product} section={params?.section} category={params?.category} key={product.id}/>
+                        <ProductCard product={product} section={params?.section} category={product.category?.link ? product.category?.link : product.category_id} key={product.id}/>
                     ))}</div> : <Empty title={'Ничего не найдено'}/>}
                     <Pagination hideOnSinglePage current={currentPage} onChange={setCurrentPage} pageSize={15} total={productCount}/>
                 </div>

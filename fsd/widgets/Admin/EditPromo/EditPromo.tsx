@@ -173,7 +173,12 @@ export default function EditPromo() {
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item name={'title'} label={'Заголовок'}>
+                    <Form.Item name={'title'} label={'Заголовок'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         <Input placeholder={'Скидки на осеннюю коллекцию до -40%'}/>
                     </Form.Item>
                     <Form.Item name={'description'} label={'Описание'}>

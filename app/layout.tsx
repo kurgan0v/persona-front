@@ -18,7 +18,12 @@ const linguisticsPro = localFont({
 
 
 export async function generateMetadata(): Promise<Metadata> {
-    return await fetch(`${process.env.APP_BASE_URL}/seo/main`).then((res) => res.json());
+    const res = await fetch(`${process.env.APP_BASE_URL}/seo/main`, { next: { revalidate: 86400 } })
+    try{
+        return await res.json()
+    } catch (e) {
+        return {}
+    }
 }
 
 export default function RootLayout({

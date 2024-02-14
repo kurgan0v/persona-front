@@ -33,7 +33,7 @@ const UploadImage = ({list, changeImage, setFileList, maxLength, multiple}: Prop
             })
         },
         onChange: ({ file, fileList, event }) => {
-            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml' || file.type === 'image/webp';
+            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml' || file.type === 'image/webp' || file.type === undefined;
             if (!isJpgOrPng) {
                 message.error('Загружаемый файл не является изображением!');
             } else {

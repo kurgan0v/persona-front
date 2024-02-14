@@ -31,8 +31,8 @@ const Footer = () => {
                         ))}
                     </div>
                     <div className={s.contacts}>
-                        <a href={`tel:${data?.phone.replace(/[^0-9+]/gi, '')}`} className={s.link}>{data?.phone}</a>
-                        <a href={`mailto:${data?.email}`} className={s.link}>{data?.email}</a>
+                        {data?.phone && <a href={`tel:${data.phone.replace(/[^0-9+]/gi, '')}`} className={s.link}>{data.phone}</a>}
+                        {data?.email && <a href={`mailto:${data.email}`} className={s.link}>{data.email}</a>}
                         <div className={s.socials}>
                             {data?.vk && <a href={data?.vk} target={'_blank'}><Instagram className={s.social}/></a>}
                             {data?.instagram && <a href={data?.instagram} target={'_blank'}><VK className={s.social}/></a>}
@@ -51,9 +51,6 @@ const Footer = () => {
                 onCancel={()=>setOpenInfo(undefined)}
                 footer={[]}
                 width={'60rem'}
-                bodyStyle={{
-                    padding: '2rem'
-                }}
             >
                 {
                     openInfo && <ModalInfo info={openInfo}/>

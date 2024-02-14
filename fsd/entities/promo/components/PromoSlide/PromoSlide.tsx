@@ -4,12 +4,13 @@ import ButtonTransparent from "@/fsd/shared/ui/ButtonTransparent/ButtonTranspare
 import {IPromo} from "@/fsd/entities/promo/model";
 import ArrowLong from "@/fsd/shared/ui/icons/ArrowLong/ArrowLong";
 import CustomImage from "@/fsd/shared/ui/CustomImage/CustomImage";
+import {clsx} from "clsx";
 interface PromoSlideProps{
     promo: IPromo
 }
 const PromoSlide:React.FC<PromoSlideProps> = ({promo}) => {
     return (
-        <Link href={promo.link ? `/catalog/promo/${promo.link}` : ''}>
+        <Link className={clsx(!promo.link && s.block)} href={promo.link ? `/catalog/promo/${promo.link}` : ''}>
             <div className={s.slide}>
                 <CustomImage className={s.image} src={promo.cover} alt={promo.title ?? ''} fill/>
                 <div className={s.slideContent}>

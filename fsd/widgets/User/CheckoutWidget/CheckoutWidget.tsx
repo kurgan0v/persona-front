@@ -1,6 +1,6 @@
 "use client";
 import s from './CheckoutWidget.module.scss';
-import {App, Button, Col, Drawer, Form, Input, InputNumber, Modal, Radio, Row, Select, Space} from "antd";
+import {App, Button, Col, Drawer, Flex, Form, Input, InputNumber, Modal, Radio, Row, Select, Space} from "antd";
 import {DELIVERY_TYPES, PAYMENT_METHODS} from "@/fsd/app/const";
 import React, {useEffect, useRef, useState} from "react";
 import {useCartTotal} from "@/fsd/app/hooks/useCartTotal";
@@ -38,6 +38,13 @@ export default function CheckoutWidget() {
     const [region, setRegion] = useState<string | undefined>();
     const [pointsListVisible, setPointsListVisible] = useState(false);
     const [city, setCity] = useState<City | undefined>();
+    useEffect(() => {
+        if(cart && cartInfo.products){
+            if(cartInfo.products.length !== cart.items.length){
+                push('/cart')
+            }
+        }
+    }, [cart, cartInfo]);
     const {data: regions, isSuccess: isSuccessRegions} = useQuery(['regions'], GetRegions);
     const {
         mutateAsync: getDeliveryPoints,
@@ -110,6 +117,7 @@ export default function CheckoutWidget() {
                             if(r.paymentInfo) {
                                 window.open(r.paymentInfo.paymentLink)
                             }
+                            message.success('Ваш заказ принят')
                             cart.setOrderNumber(r.id);
                             cart.clearCart();
                         }).catch(async (e) => {
@@ -118,8 +126,8 @@ export default function CheckoutWidget() {
                     }
                 }}
             >
-                <Row gutter={80}>
-                    <Col span={8}>
+                <div className={s.row}>
+                    <div className={s.column}>
                         <h3>Доставка</h3>
                         <Form.Item name={'delivery_type'}>
                             <Radio.Group onChange={(e) => setDeliveryType(e.target.value)}>
@@ -181,7 +189,7 @@ export default function CheckoutWidget() {
                             </Form.Item>}
                             {isSuccessCities && isSuccessCost && <Form.Item name={['address', 'type']} label={'Тип доставки'}>
                                 <Radio.Group onChange={(e)=>setCdekDeliveryType(e.target.value)}  style={{width: '100%'}} className={s.wrapperDeliveryTypes}>
-                                    <Row gutter={20}>
+                                    <Row gutter={20} className={s.deliveryMethods}>
                                         {costs?.map((m) =>
                                             <Radio value={m.tariff_code} key={m.tariff_code} onClick={()=>{
                                                 if(m.tariff_code === 137){
@@ -253,8 +261,8 @@ export default function CheckoutWidget() {
                             <Button onClick={()=>setPointsModal(true)}>Открыть карту</Button>
                             <p><b>Пункт выдачи заказов:</b> <br/>{deliveryPointAddress ?? 'Не выбран'}</p>
                         </div>}
-                    </Col>
-                    <Col span={8}>
+                    </div>
+                    <div className={s.column} >
                         <h3>Оплата</h3>
                         <Form.Item name={'payment_method'}>
                             <Radio.Group onChange={(e) => setPaymentMethod(e.target.value)}>
@@ -279,13 +287,23 @@ export default function CheckoutWidget() {
                             <p className={s.info}>
                                 После оформления заказа на почту, указанную в заказе, придет счет для оплаты
                             </p>
-                            <Form.Item label={'Тип организации'} name={['requisites', 'type']}>
+                            <Form.Item label={'Тип организации'} name={['requisites', 'type']} rules={[
+                                {
+                                    required: true,
+                                    message: 'Это обязательное поле'
+                                }
+                            ]}>
                                 <Radio.Group>
                                     <Radio value={'ip'}>Физ. лицо</Radio>
                                     <Radio value={'company'}>Юр. лицо</Radio>
                                 </Radio.Group>
                             </Form.Item>
-                            <Form.Item label={'Наименование покупателя или заказчика'} name={['requisites', 'name']}>
+                            <Form.Item label={'Наименование покупателя или заказчика'} name={['requisites', 'name']} rules={[
+                                {
+                                    required: true,
+                                    message: 'Это обязательное поле'
+                                }
+                            ]}>
                                 <Input placeholder={"Название организации или ФИО"}/>
                             </Form.Item>
                             <Form.Item label={'ИНН'} name={['requisites', 'inn']} rules={[
@@ -357,8 +375,8 @@ export default function CheckoutWidget() {
                                 }} placeholder={'20 цифр, без пробелов'}/>
                             </Form.Item>
                         </>}
-                    </Col>
-                    <Col span={8}>
+                    </div>
+                    <div className={s.column} >
                         <div className={s.orderInfos}>
                             <h3>Итого</h3>
                             <div className={s.orderInfo}>
@@ -410,8 +428,8 @@ export default function CheckoutWidget() {
                                 <p className={s.agreement}>Нажимая кнопку «Оформить заказ», вы даете <Link target="_blank" href="/agreement.pdf">согласие на обработку персональных данных</Link>, соглашаетесь с <Link target="_blank"  href={'/Оферта.pdf'}>договором-офертой</Link> и <Link target={'_blank'} href={'/privacy-policy.pdf'}>политикой конфиденциальности</Link></p>
                             </div>
                         </Form.Item>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </Form>
             <Modal
                 open={pointsModal}

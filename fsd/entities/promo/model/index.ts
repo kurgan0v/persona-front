@@ -8,4 +8,5 @@ export interface IPromo{
     order: number
     showButton?: boolean
     sections?: string[]
+    visible?: boolean
 }

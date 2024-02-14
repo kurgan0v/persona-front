@@ -3,6 +3,7 @@ import CustomImage from "@/fsd/shared/ui/CustomImage/CustomImage";
 import {IPromo} from "@/fsd/entities/promo/model";
 import Delete from "@/fsd/features/Delete/Delete";
 import EditIcon from "@/fsd/shared/ui/icons/EditIcon/EditIcon";
+import {clsx} from "clsx";
 
 interface PromoBlockProps{
     promo: IPromo
@@ -11,7 +12,7 @@ interface PromoBlockProps{
 }
 export default function PromoBlock({promo, onDeleteClick, onEditClick}: PromoBlockProps){
     return(
-        <div className={s.wrapper}>
+        <div className={clsx(s.wrapper, !promo.visible && s.hidden)}>
             <div className={s.img}>
                 <CustomImage src={promo.cover} alt={''} fill/>
             </div>

@@ -40,8 +40,9 @@ export default function CartItem({item, product}: {item: ICartItem, product?: IP
                     <CustomImage src={(product?.gallery && product?.gallery[0]) ? product?.gallery[0] : ''} alt={''} fill/>
                 </div>
                 <div className={s.textInfo}>
-                    <Link href={`/${product?.category?.section.link}/${product?.category?.link ?? product?.category?.id}/${product?.id}`} target={'_blank'}><h3>{product?.title}</h3></Link>
+                    <Link href={`/${product?.category?.section.link}/${product?.category?.link ? product?.category?.link : product?.category?.id}/${product?.id}`} target={'_blank'}><h3>{product?.title}</h3></Link>
                     <p>Размер: {product?.sizes.find(s => s.id === item.size_id)?.name}</p>
+                    {quantity <= 5 && <p className={s.few}>Осталось мало</p>}
                 </div>
             </div>
             <div className={s.actions}>
@@ -61,7 +62,7 @@ export default function CartItem({item, product}: {item: ICartItem, product?: IP
                     </div>
                     <p className={clsx(s.price, s.subtotal)}>{((price && item.quantity) && price * item.quantity)?.toLocaleString()} ₽</p>
                 </> : <p>Данный товар недоступен</p>}
-                <Delete description={'Вы уверены, что хотите удалить этот товар из корзины?'} onConfirm={deleteItem}/>
+                <Delete className={s.icon} description={'Вы уверены, что хотите удалить этот товар из корзины?'} onConfirm={deleteItem}/>
             </div>
         </div>
     )

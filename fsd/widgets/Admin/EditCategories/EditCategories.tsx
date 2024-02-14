@@ -156,7 +156,7 @@ export default function EditCategories() {
                         <Input placeholder={'Пиджаки'}/>
                     </Form.Item>
                     <Form.Item name={'link'} label={'Cсылка'}>
-                        <Input maxLength={50} showCount placeholder={'jackets'}/>
+                        <Input showCount placeholder={'jackets'}/>
                     </Form.Item>
                     <Row gutter={30}>
                         <Col span={11}>

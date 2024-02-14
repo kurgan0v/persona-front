@@ -187,3 +187,30 @@
     text-decoration: underline;
   }
 }
+
+.row{
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.column{
+  flex: 1;
+}
+@media (max-width: 1050px) {
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+  .column{
+    width: 30rem;
+  }
+}
+@media (max-width: 576px) {
+  .deliveryMethods{
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+  .column{
+    width: 100%;
+  }
+}

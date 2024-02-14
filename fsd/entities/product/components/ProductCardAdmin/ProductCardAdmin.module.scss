@@ -1,3 +1,6 @@
 .wrapper{
   position: relative;
+  &.hidden{
+    opacity: .6;
+  }
 }

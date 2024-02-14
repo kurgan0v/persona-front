@@ -8,7 +8,6 @@ import { notFound } from 'next/navigation'
 
 export default function SectionPage({section}:{section: string}) {
     const {data, isSuccess, isError} = useQuery([section], ()=>SectionFetcher(section))
-    if (isError) return notFound();
     return (
         <div>
             {isSuccess && <>

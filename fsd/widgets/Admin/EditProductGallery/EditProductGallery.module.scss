@@ -1,0 +1,29 @@
+.image{
+  width: 10rem;
+  min-width: 10rem;
+  height: 10rem;
+  overflow: hidden;
+  position: relative;
+}
+.wrapperImages{
+  display: flex;
+  gap: 0.5rem;
+  max-width: 50rem;
+  align-items: center;
+  overflow-x: scroll;
+  margin-bottom: 1rem;
+  &::-webkit-scrollbar {
+    height: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--grey);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--dark-grey);
+  }
+}
+.subtitle{
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}

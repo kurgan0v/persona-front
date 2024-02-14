@@ -2,6 +2,7 @@ import s from './InfoBlock.module.scss';
 import CustomImage from "@/fsd/shared/ui/CustomImage/CustomImage";
 import {IInfo} from "@/fsd/entities/info/model";
 import EditIcon from "@/fsd/shared/ui/icons/EditIcon/EditIcon";
+import {clsx} from "clsx";
 
 interface InfoBlockProps {
     info: IInfo
@@ -9,7 +10,7 @@ interface InfoBlockProps {
 }
 export default function InfoBlock({info, onEditClick}:InfoBlockProps){
     return(
-        <div className={s.wrapper}>
+        <div className={clsx(s.wrapper, !info.visible && s.hidden)}>
             <div className={s.img}>
                 <CustomImage src={info.cover} alt={info.name} width={400} height={400}/>
             </div>

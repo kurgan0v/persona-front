@@ -17,7 +17,7 @@ const CategoryBlock: React.FC<CategoryMainProps> = ({category}) => {
             <CustomImage className={s.image} src={category.cover} alt={''} fill/>
             <h2>{category.name}</h2>
             {category.text && <p>{category.text}</p>}
-            <Link href={`${pathname}/${category.link}`}>
+            <Link href={`${pathname}/${category.link ? category.link : category.id}`}>
                 <ButtonTransparent>
                     <div className={s.btn}>
                         <p>Подробнее</p>

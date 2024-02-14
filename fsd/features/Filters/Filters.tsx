@@ -15,7 +15,7 @@ import {SectionsFetcher} from "@/fsd/shared/api/section";
 import {ICategory} from "@/fsd/entities/category/model";
 
 interface FiltersProps {
-    currentPage: number
+    currentPage: number | undefined
     productCount: number
     setProductCount: React.Dispatch<React.SetStateAction<number>>
     category?: string
@@ -35,7 +35,6 @@ export default function Filters({currentPage, productCount, setProductCount, cha
     const searchParams = useSearchParams()
     const urlCh = searchParams.get('characteristics');
     const urlSizes = searchParams.get('sizes');
-
     const urlPrices = searchParams.get('prices');
     const {data: sections, isSuccess: isSuccessSections} = useQuery(['sections'], SectionsFetcher);
     const newPrices = urlPrices?.split(',').map(el => +el).slice(0,2);
@@ -46,7 +45,7 @@ export default function Filters({currentPage, productCount, setProductCount, cha
     const [onlySale, setOnlySale] = useState(!!searchParams.get('sale'));
     const [productCharacteristics, setProductCharacteristics] = useState<string[][]>(urlCh ? urlCh.split(':').map((t)=> t ? t.split(',') : []) : []);
     const [productSizes, setProductSizes] = useState<string[]>(urlSizes ? urlSizes.split(',') : []);
-    const [price, setPrice] = useState<[number, number]>(newPrices ? [newPrices[0] ?? prices.min, newPrices[1] ?? prices.max] : [prices.min ?? 0, prices.max ?? 0])
+    const [price, setPrice] = useState<number[]>(newPrices ? [newPrices[0] ?? prices.min, newPrices[1] ?? prices.max] : [prices.min ?? 0, prices.max ?? 0])
     const [debouncedPrice] = useCustomDebounce(price, 500);
     useEffect(() => {
         if(price[0] !== prices.min || price[1] !== prices.max){
@@ -56,7 +55,9 @@ export default function Filters({currentPage, productCount, setProductCount, cha
         }
     }, [debouncedPrice]);
     useEffect(() => {
-        router.push(pathname + '?' + createQueryString('page', `${currentPage}`))
+        if(currentPage){
+            router.push(pathname + '?' + createQueryString('page', `${currentPage}`))
+        }
     }, [currentPage]);
     const router = useRouter();
     const pathname = usePathname();
@@ -163,7 +164,7 @@ export default function Filters({currentPage, productCount, setProductCount, cha
            </div> : <p>Размеры не найдены</p>
        })
     }
-    if(prices.min !== prices.max && productCount > 1){
+    if(prices.min !== prices.max){
         items.push({
             key: 'price',
             label: 'Стоимость',
@@ -241,7 +242,7 @@ export default function Filters({currentPage, productCount, setProductCount, cha
                     options={categories?.map(el => (
                         {
                             label: el.name,
-                            value: el.link
+                            value: el.link ? el.link : el.id
                         }
                     ))}
                     onChange={(value)=>{

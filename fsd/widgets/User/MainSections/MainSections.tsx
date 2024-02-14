@@ -5,7 +5,7 @@ import {useQuery} from "react-query";
 import {SectionsFetcher} from "@/fsd/shared/api/section";
 
 export default function MainSections(){
-    const {data: sections, isSuccess} = useQuery(['sections'], () => SectionsFetcher());
+    const {data: sections, isSuccess} = useQuery(['sections'], SectionsFetcher);
     return(
         <div className={s.sections}>
             {isSuccess && sections.filter(el => el.is_main).map(section => (

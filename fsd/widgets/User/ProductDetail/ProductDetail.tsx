@@ -8,7 +8,6 @@ import {notFound} from "next/navigation";
 
 export default function ProductDetail({productId}: { productId: string }) {
     const {data: product, isSuccess, isError} = useQuery(['product', productId], () => GetProductDetailFetcher(productId))
-    if(isError) return notFound();
     return (
         <>
             {isSuccess && <>
@@ -18,11 +17,11 @@ export default function ProductDetail({productId}: { productId: string }) {
                     },
                     {
                         title: <Link
-                            href={`/${product?.category?.section.link}`}>{product?.category?.section.name}</Link>,
+                            href={`/catalog/${product?.category?.section.link}`}>{product?.category?.section.name}</Link>,
                     },
                     {
                         title: <Link
-                            href={`/${product?.category?.section.link}/${product?.category?.link ?? product?.category?.id}`}>{product?.category?.name}</Link>,
+                            href={`/${product?.category?.section.link}/${product?.category?.link ? product?.category?.link : product?.category?.id}`}>{product?.category?.name}</Link>,
                     },
                     {
                         title: product?.title,

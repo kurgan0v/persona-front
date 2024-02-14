@@ -23,7 +23,7 @@ export default function ProductsList(){
     const [query, setQuery] = useState('');
     const [debouncedSearchQuery] = useCustomDebounce(query, 500);
     useEffect(()=>{
-        if(category && section){
+        if(debouncedSearchQuery){
             getProducts({
                 category,
                 query: debouncedSearchQuery
@@ -44,6 +44,10 @@ export default function ProductsList(){
                 <Link href={'/admin/product/create'}><AddIcon/></Link>
             </div>
             <div className={s.filters}>
+                <div className={clsx(s.sectionFilter, s.input)}>
+                    <p>Поиск по названию</p>
+                    <Input className={s.searchInput} onChange={(e)=>setQuery(e.target.value)} value={query} placeholder={'Рубашка белая'}/>
+                </div>
                 <div className={s.sections}>
                     <div className={s.sectionFilter}>
                         <p>Раздел</p>
@@ -52,7 +56,6 @@ export default function ProductsList(){
                             setSection(e)
                             setCategory('');
                             setCategories(undefined)
-                            setProducts(undefined)
                             getCategories(e).then(r => setCategories(r))
                         }}>{
                             sections.filter(el => el.link).map(el => (
@@ -77,12 +80,8 @@ export default function ProductsList(){
                         </Select>
                     </div>}
                 </div>
-                {category && <div className={clsx(s.sectionFilter, s.input)}>
-                    <p>Поиск по названию</p>
-                    <Input className={s.searchInput} onChange={(e)=>setQuery(e.target.value)} value={query} placeholder={'Рубашка белая'}/>
-                </div>}
             </div>
-            {products &&
+            {(query || category) && products &&
                 <>
                 {products.length ? <div className={s.products}>{products.map(product => (
                     <ProductCardAdmin product={product} key={product.id}/>

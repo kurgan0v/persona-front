@@ -2,7 +2,7 @@
 import s from './OrdersList.module.scss';
 import {useMutation, useQuery} from "react-query";
 import {useState} from "react";
-import {Button, Col, DatePicker, Form, Input, Modal, Pagination, Row, Select} from 'antd';
+import {Button, Col, DatePicker, Form, Input, message, Modal, Pagination, Row, Select} from 'antd';
 import Empty from "@/fsd/shared/ui/Empty/Empty";
 import {DELIVERY_STATUSES, ONLINE_PAYMENT_STATUSES, ORDER_STATUSES, REQUEST_TYPES} from "@/fsd/app/const";
 import locale from 'antd/es/date-picker/locale/ru_RU';
@@ -55,8 +55,9 @@ export default function OrdersList() {
                 <div className={s.list}>
                     {orders?.orders?.length ? orders?.orders.map((el) =>
                             <OrderItem
+                                opened={form.getFieldValue('id')}
                                 order={el}
-                                key={el.id}
+                                key={`${el.id}` + el.status + el.delivery_status + el.online_payment_status}
                                 setEditModal={()=>{
                                     setEditModal(true)
                                     form.setFieldsValue(el)
@@ -78,6 +79,7 @@ export default function OrdersList() {
                         updateOrder(e).then((r)=>{
                             setEditModal(false);
                             refetch();
+                            message.success('Статус заказа обновлен')
                         })
                     }}
                     layout={'vertical'}
@@ -104,12 +106,6 @@ export default function OrdersList() {
                     <Form.Item>
                         <div className={s.orderActions}>
                             <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
-                            {/*<Button onClick={()=>{
-                                form.setFieldValue('status', 7)
-                                form.setFieldValue('delivery_status', 3)
-                                form.setFieldValue('online_payment_status', 4)
-                                form.submit()
-                            }}>Завершить заказ</Button>*/}
                         </div>
                     </Form.Item>
                 </Form>

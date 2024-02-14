@@ -26,3 +26,14 @@
   justify-content: space-between;
   column-gap: 1rem;
 }
+@media (max-width: 1250px) {
+  .wrapper{
+    padding: 2rem 1rem;
+  }
+}
+@media (max-width: 991px) {
+  .wrapper{
+    padding: 1rem;
+    row-gap: 1rem;
+  }
+}

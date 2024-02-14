@@ -1,6 +1,7 @@
 .modalWrapper{
   display: flex;
   column-gap: 2rem;
+  padding: 2rem;
   h2{
     margin-bottom: 0.5rem;
   }
@@ -9,4 +10,19 @@
   position: relative;
   min-width: 15rem;
   min-height: 100%;
+}
+@media (max-width: 768px) {
+  .modalWrapper{
+    flex-direction: column;
+    row-gap: 1rem;
+    padding: 0;
+    p{
+      font-size: 0.875rem;
+    }
+  }
+  .modalImg{
+    height: 10rem;
+    margin-top: 2rem;
+    width: 100%;
+  }
 }

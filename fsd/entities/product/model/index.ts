@@ -21,6 +21,7 @@ export interface IProduct{
     height?: number
     width?: number
     length?: number
+    deleted?: boolean
 }
 
 export interface IProductWithSection extends IProduct{

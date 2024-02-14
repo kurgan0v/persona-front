@@ -1,0 +1,42 @@
+.block{
+  padding: 2rem 0;
+  :global(.ant-form-item){
+    margin-bottom: 0.2rem;
+  }
+  :global(.ant-col-8){
+    margin-bottom: 1rem;
+  }
+}
+.subtitle{
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.blockHeader{
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  margin-bottom: 1rem;
+  .subtitle{
+    margin-bottom: 0;
+  }
+}
+.addValue{
+  color: var(--dark-grey);
+  border-bottom: 1px solid var(--dark-grey);
+  cursor: pointer;
+  transition: .38s ease-in-out;
+  width: max-content;
+  &:hover{
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+}
+.select{
+  height: auto;
+}
+.characteristic{
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}

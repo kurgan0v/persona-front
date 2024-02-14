@@ -1,6 +1,6 @@
 "use client";
 import s from './CreateProduct.module.scss';
-import {Button, Col, Form, Input, InputNumber, Row, Select, Switch} from "antd";
+import {App, Button, Col, Form, Input, InputNumber, Row, Select, Switch} from "antd";
 import {useMutation, useQuery} from "react-query";
 import {SectionsAllFetcher} from "@/fsd/shared/api/section";
 import {CaretDownFilled} from "@ant-design/icons";
@@ -11,6 +11,7 @@ import {ProductCreateFetcher} from "@/fsd/shared/api/products";
 import {useRouter} from "next/navigation";
 
 export default function CreateProduct() {
+    const {message} = App.useApp();
     const {push} = useRouter();
     const [form] = Form.useForm();
     const [categories, setCategories] = useState<ICategory[] | undefined>();
@@ -25,15 +26,23 @@ export default function CreateProduct() {
         <Form
             layout={'vertical'}
             onFinish={(e) => {
-                createProduct(e).then(r => push(`/admin/product/${r.id}`));
+                createProduct(e).then(r => {
+                    message.success('Товар создан')
+                    push(`/admin/product/${r.id}`)
+                });
             }}
             form={form}
         >
             <Row gutter={30}>
                 <Col span={12}>
-
+                    <Form.Item label={'Раздел'} name={'section_id'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         {isSuccess &&
-                            <Form.Item label={'Раздел'}><Select suffixIcon={<CaretDownFilled/>} className={s.select} placeholder={'Выберите раздел'}
+                            <Select suffixIcon={<CaretDownFilled/>} className={s.select} placeholder={'Выберите раздел'}
                                     onChange={(e) => {
                                         form.setFieldValue('category_id', '')
                                         getCategories(e).then(setCategories)
@@ -43,10 +52,14 @@ export default function CreateProduct() {
                                         <Option key={el.id} value={el.id}>{el.name}</Option>
                                     ))
                                 }
-                            </Select></Form.Item>}
-
+                            </Select>}</Form.Item>
                 </Col>
-                {categories && <Col span={12}><Form.Item name={'category_id'} label={'Категория'}><Select
+                {categories && <Col span={12}><Form.Item name={'category_id'} label={'Категория'} rules={[
+                    {
+                        required: true,
+                        message: 'Это обязательное поле'
+                    }
+                ]}><Select
                     suffixIcon={<CaretDownFilled/>} className={s.select} placeholder={'Выберите категорию'}
                 >
                     {categories.map(el => (
@@ -55,10 +68,20 @@ export default function CreateProduct() {
                 </Select></Form.Item></Col>}
             </Row>
 
-            <Form.Item name={'title'} label={'Название'}>
-                <Input maxLength={60} showCount/>
+            <Form.Item name={'title'} label={'Название'} rules={[
+                {
+                    required: true,
+                    message: 'Это обязательное поле'
+                }
+            ]}>
+                <Input  showCount placeholder={'Рубашка белая'}/>
             </Form.Item>
-            <Form.Item name={'basic_price'} label={'Базовая стоимость'}>
+            <Form.Item name={'basic_price'} label={'Базовая стоимость'} rules={[
+                {
+                    required: true,
+                    message: 'Это обязательное поле'
+                }
+            ]}>
                 <InputNumber controls={false} placeholder={"1000"}/>
             </Form.Item>
             <Form.Item name={'is_new'} label={'Отметить как новинку'} valuePropName={'checked'}>

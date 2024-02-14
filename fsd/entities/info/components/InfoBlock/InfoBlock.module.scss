@@ -5,6 +5,9 @@
   padding: 1rem;
   border-radius: 3px;
   border: 1px solid var(--dark-grey);
+  &.hidden{
+    opacity: .6;
+  }
 }
 .content{
   flex: 1;

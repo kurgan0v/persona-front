@@ -11,7 +11,7 @@ import {
 import dayjs from "dayjs";
 import {clsx} from "clsx";
 import {CaretRightOutlined} from "@ant-design/icons";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {App, Button, Form, Modal, Switch, Tooltip} from "antd";
 import EditIcon from "@/fsd/shared/ui/icons/EditIcon/EditIcon";
 import {IOrder} from "@/fsd/entities/order/model";
@@ -20,15 +20,26 @@ import {useMutation} from "react-query";
 import {CheckInvoiceStatus, GetInvoiceDocument, OrderReserve, OrderUnreserve} from '@/fsd/shared/api/payment';
 
 interface OrderItemProps {
+    opened?: number
     order: IOrder
     setEditModal: () => void
 }
 
-export default function OrderItem({order, setEditModal}: OrderItemProps) {
+export default function OrderItem({order, setEditModal, opened}: OrderItemProps) {
+    const {message} = App.useApp();
     const {mutateAsync: checkInvoiceStatus, data: dataOrder, isLoading} = useMutation(CheckInvoiceStatus);
     const {mutateAsync: getInvoiceDocument} = useMutation(GetInvoiceDocument);
     const {mutateAsync: reserveItems} = useMutation(OrderReserve);
     const {mutateAsync: unreserveItems} = useMutation(OrderUnreserve);
+    useEffect(() => {
+        if(dataOrder){
+            if(dataOrder.online_payment_status === order.online_payment_status){
+                message.info('Статус оплаты не изменился')
+            } else {
+                message.success('Статус оплаты изменен')
+            }
+        }
+    }, [dataOrder]);
     const statuses = useMemo(()=>{
         const orderInfo = dataOrder ? dataOrder : order;
         return <div className={s.statuses}>
@@ -56,10 +67,10 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
             </div>
         </div>
     }, [dataOrder])
-    const {message} = App.useApp();
+
     const status = [s.processing, s.processing, s.processing, s.closed, s.cancelled, s.processing];
-    const [open, setOpen] = useState(false);
-    const [reserved, setReserved] = useState(!!order.OrderItems[0].reserved_to)
+    const [open, setOpen] = useState(opened === order.id);
+    const [reserved, setReserved] = useState(!!order.OrderItems[0]?.reserved_to)
     const address: string[] = [];
     if (order.address) {
         order.address.address && address.push(`${order.address.address}`)
@@ -89,8 +100,10 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
                         <Switch checked={reserved} onChange={async ()=>{
                             if(reserved){
                                 await unreserveItems(order.id)
+                                message.success('Товары сняты с резерва')
                             } else {
                                 await reserveItems(order.id)
+                                message.success('Товары зарезервированы')
                             }
                             setReserved(!reserved)
                         }}/>
@@ -199,17 +212,6 @@ export default function OrderItem({order, setEditModal}: OrderItemProps) {
                         <p><b>Информация о заказе: </b>{order.comment}</p>
                     </div>}
                 </div>
-
-                {/*{request.comment &&  <p><b>Комментарий пользователя: </b>{request.comment}</p>}
-                {request.admin_comment &&  <p><b>Описание заявки: </b>{request.admin_comment}</p>}
-                {!!request.attachments?.length && <div className={s.images}>
-                    {request.attachments.map(el => (
-                        <CustomImage className={s.img} onClick={()=>{
-                            setPreviewImage(el);
-                            setPreviewOpen(true);
-                        }} folderPrefix={'requests'} key={el} src={el} alt={''} width={200} height={200}/>
-                    ))}
-                </div>}*/}
             </div>
         </div>
     )

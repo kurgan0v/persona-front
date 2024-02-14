@@ -5,7 +5,7 @@ import ProductForm from "@/fsd/features/ProductForm/ProductForm";
 import CustomImage from "@/fsd/shared/ui/CustomImage/CustomImage";
 import ButtonRound from "@/fsd/shared/ui/ButtonRound/ButtonRound";
 import Arrow from "@/fsd/shared/ui/icons/Arrow/Arrow";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {clsx} from "clsx";
 import {
     GlassMagnifier,
@@ -22,14 +22,15 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({product}: ProductInfoProps) {
+    const screenWidth = useRef(window.screen.width)
     const [currentImage, setCurrentImage] = useState(0);
     return (
         <div className={s.wrapper}>
             <div className={s.galleryWrapper}>
                 <div className={s.wrapMagnifier}>
-                    <SideBySideMagnifier
-                        imageSrc={(product.gallery && product.gallery[currentImage]) ? /https/.test(product.gallery[currentImage]) ? product.gallery[currentImage] : `${process.env.APP_BASE_URL}/files/${product.gallery[currentImage]}` : '/placeholder.svg'}
-                        imageAlt="Example"
+                    <SideBySideMagnifier inPlaceMinBreakpoint={576}
+                                         imageSrc={(product.gallery && product.gallery[currentImage]) ? /https/.test(product.gallery[currentImage]) ? product.gallery[currentImage] : `${process.env.APP_BASE_URL}/files/${product.gallery[currentImage]}` : '/placeholder.svg'}
+                                         imageAlt="Example"
                     />
                 </div>
                 <div className={s.gallery}>

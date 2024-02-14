@@ -12,17 +12,38 @@ import Empty from "@/fsd/shared/ui/Empty/Empty";
 export default function FavoritesList() {
     const favorites = useStore(useFavoritesStore, (data) => data.favorites)
     const [products, setProducts] = useState<IProductDetail[]>([]);
+    const [favoritesFiltered, setFavoritesFiltered] = useState<string[]>([]);
     const {mutateAsync: getFavorites, isSuccess} = useMutation(GetProductsByIds);
     useEffect(() => {
-        if (favorites) {
-            getFavorites(favorites).then(setProducts)
+        if (favorites && !products.length) {
+            getFavorites(favorites).then(r => {
+                setProducts(r)
+                setFavoritesFiltered(favorites.filter(el => !r.find(p => p.id === el)))
+            })
+
         }
     }, [favorites]);
     return (
         <>
-            {products.length ? <div className={s.cards}>{products.map(el => (
-                <ProductCard product={el} key={el.id}/>
-                ))}</div> : <Empty title={"Вы пока ничего не сохранили"}/>}
+            {favorites?.length ? <div className={s.cards}>
+                {products.length > 0 && products.map(el => (
+                    <ProductCard product={el} key={el.id}/>
+                ))}
+                {favoritesFiltered.map(el =>
+                    <ProductCard
+                        product={{
+                            id: el,
+                            title: 'Товар недоступен',
+                            sizes: [],
+                            gallery: [],
+                            characteristics: [],
+                            category_id: '',
+                            basic_price: 0,
+                            visible: true
+                        }}
+                        key={el}
+                    />)}
+            </div> : <Empty title={"Вы пока ничего не сохранили"}/>}
         </>
 
     )

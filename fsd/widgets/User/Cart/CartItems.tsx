@@ -31,9 +31,8 @@ export default function CartItems() {
                             <p>Без учета доставки</p>
                             <p className={s.price}>{cartInfo.total.toLocaleString()} ₽</p>
                         </div>
-
                     </div>
-                    <Link href={'/checkout'}><Button type={'primary'}>Продолжить</Button></Link></> :
+                    <Button type={'primary'} disabled={cartInfo.products?.length !== cart?.items.length}><Link href={'/checkout'}>Продолжить</Link></Button></> :
                 <Empty title={'Вы еще ничего не добавили'}/>}
         </>
     )

@@ -60,6 +60,9 @@
   border-radius: 3px;
   cursor: pointer;
 }
+.inactive{
+  pointer-events: none;
+}
 .product{
   display: flex;
   align-items: center;

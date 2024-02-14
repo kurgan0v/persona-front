@@ -20,9 +20,9 @@ const ProductCard:React.FC<ProductCardProps> = ({product, section, category}) =>
        <div className={s.wrapper}>
            <FavoriteCatalog isActive={favorites.includes(product.id)} onClick={()=>setFavorites(product.id)}/>
            <Link href={
-               product.category ?
-               `/${product?.category?.section.link}/${product?.category?.link ?? product?.category?.id}/${product.id}` :
-                   `/${section}/${category}/${product.id}`
+               product.category ? product.category?.section ?
+               `/${product?.category?.section.link}/${product?.category?.link ? product?.category?.link : product?.category?.id}/${product.id}` :
+                   `/${section}/${category}/${product.id}` : ''
            } >
                <ProductCardBasic product={product}/>
            </Link>

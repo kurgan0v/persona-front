@@ -66,7 +66,12 @@ export default function InfoList(){
                     <Form.Item name={'visible'} label={'Отображать на сайте'} valuePropName={'checked'}>
                         <Switch/>
                     </Form.Item>
-                    <Form.Item name={'name'} label={'Название блока'}>
+                    <Form.Item name={'name'} label={'Название блока'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         <Input/>
                     </Form.Item>
                     <Form.Item name={'text'} label={'Информация'}>

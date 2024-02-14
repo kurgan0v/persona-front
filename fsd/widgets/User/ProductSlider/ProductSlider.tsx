@@ -41,7 +41,7 @@ export function ProductSlider ({title, products}:ProductSliderProps){
                    991: {
                        slidesPerView: 3
                    },
-                   576:{
+                   420:{
                        slidesPerView: 2
                    }
                }}

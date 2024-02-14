@@ -47,7 +47,7 @@ export default function RequestItem({request, setEditModal}: RequestItemProps){
                             }} folderPrefix={'requests'} key={el} src={el} alt={''} width={200} height={200}/>
                         ))}
                     </div>}
-                </> : <Link target={'_blank'} href={`/admin/product/${request.product_id}`}>
+                </> : <Link className={clsx(request.product.deleted && s.inactive)} target={'_blank'} href={!request.product.deleted ? `/admin/product/${request.product_id}` : ''}>
                     <div className={s.product}>
                         <CustomImage style={{objectFit: 'contain'}} src={request.product.gallery[0] ? request.product.gallery[0] : ''} width={50} height={50} alt={''}/>
                         <h3>{request.product.title}</h3>

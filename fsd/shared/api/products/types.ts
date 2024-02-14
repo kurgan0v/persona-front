@@ -13,9 +13,9 @@ export type GetProductsFilteredRequest = {
     sale?: boolean
     sizes?: string[]
     characteristics?: string[][]
-    price?: [number, number]
+    price?: number[]
     promo?: string
-    page: number
+    page?: number
 }
 export type GetProductsQueryFetcherRequest = {
     category: string

@@ -1,12 +1,14 @@
 import {QuestionCircleOutlined} from "@ant-design/icons";
 import s from './Delete.module.scss';
 import {Popconfirm} from "antd";
+import {clsx} from "clsx";
 
 interface DeleteProps{
     description: string
     onConfirm: () => void
+    className?: string
 }
-export default function Delete({onConfirm, description}: DeleteProps){
+export default function Delete({onConfirm, description, className}: DeleteProps){
     return(
         <Popconfirm
             title="Подтвердите действие"
@@ -16,7 +18,7 @@ export default function Delete({onConfirm, description}: DeleteProps){
             cancelText="Отмена"
             icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
         >
-            <svg className={s.icon} xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+            <svg className={clsx(s.icon, className)} xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                  viewBox="0 0 22 22" fill="none">
                 <g clipPath="url(#clip0_445_1491)">
                     <path

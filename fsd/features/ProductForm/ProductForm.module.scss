@@ -140,3 +140,10 @@
     padding: 0;
   }
 }
+@media (max-width: 768px) {
+  .subscribe{
+    p, span{
+      font-size: 0.75rem;
+    }
+  }
+}
