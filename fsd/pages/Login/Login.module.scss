@@ -22,5 +22,23 @@
   position: relative;
 }
 
+@media (max-width: 991px){
+  .loginForm{
+    padding: 2rem 3rem;
+    gap: 1rem;
+  }
+  .img{
+    width: 10rem;
+  }
+  .title{
+    font-size: 1.25rem;
+  }
+}
 
-
+@media (max-width: 576px){
+  .loginForm{
+    padding: 2rem 3rem;
+    gap: 1rem;
+    margin: 1rem;
+  }
+}

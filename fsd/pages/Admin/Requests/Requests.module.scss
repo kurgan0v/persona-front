@@ -4,3 +4,8 @@
   row-gap: 2rem;
 }
 
+@media (max-width: 1200px) {
+  .wrapper{
+    gap: 1rem;
+  }
+}

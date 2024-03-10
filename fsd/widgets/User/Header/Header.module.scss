@@ -64,6 +64,9 @@
 .burgerIcon{
   background: var(--background) !important;
 }
+.mainLinkMobile{
+  display: none;
+}
 @media(max-width: 1250px){
   .wrapper{
     display: grid;
@@ -85,6 +88,9 @@
 }
 
 @media (max-width: 768px) {
+  .mainLinkMobile{
+    display: block;
+  }
   .menuWrapper{
     width: 100%;
     position: fixed;

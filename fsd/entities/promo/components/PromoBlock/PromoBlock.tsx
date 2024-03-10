@@ -13,15 +13,17 @@ interface PromoBlockProps{
 export default function PromoBlock({promo, onDeleteClick, onEditClick}: PromoBlockProps){
     return(
         <div className={clsx(s.wrapper, !promo.visible && s.hidden)}>
-            <div className={s.img}>
-                <CustomImage src={promo.cover} alt={''} fill/>
-            </div>
-            <div className={s.content}>
-                <div className={s.header}>
-                    <h3>{promo.title}</h3>
-                    <p>{promo.description}</p>
+            <div className={s.contentWrapper}>
+                <div className={s.img}>
+                    <CustomImage src={promo.cover} alt={''} fill/>
                 </div>
-                <p>{promo.link ? `/${promo.link}` : 'Ссылка не указана'}</p>
+                <div className={s.content}>
+                    <div className={s.header}>
+                        <h3>{promo.title}</h3>
+                        <p>{promo.description}</p>
+                    </div>
+                    <p>{promo.link ? `/${promo.link}` : 'Ссылка не указана'}</p>
+                </div>
             </div>
             <div className={s.buttons}>
                 <Delete onConfirm={onDeleteClick} description={'Вы уверены, что хотите удалить промо-акцию?'}/>

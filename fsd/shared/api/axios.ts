@@ -21,6 +21,7 @@ $api.interceptors.response.use(
             return $api(config);
         }
         if (error.response.status === 401) {
+            localStorage.removeItem('accessToken')
             window.location.href = '/login';
             return;
         }

@@ -8,8 +8,11 @@ import {useEffect, useState} from "react";
 import {GetProductsByIds} from "@/fsd/shared/api/products";
 import {IProductDetail} from "@/fsd/entities/product/model";
 import Empty from "@/fsd/shared/ui/Empty/Empty";
+import { motion } from "framer-motion";
+import {container, item} from "@/fsd/app/const/framer-motion-options";
 
 export default function FavoritesList() {
+
     const favorites = useStore(useFavoritesStore, (data) => data.favorites)
     const [products, setProducts] = useState<IProductDetail[]>([]);
     const [favoritesFiltered, setFavoritesFiltered] = useState<string[]>([]);
@@ -20,17 +23,18 @@ export default function FavoritesList() {
                 setProducts(r)
                 setFavoritesFiltered(favorites.filter(el => !r.find(p => p.id === el)))
             })
-
         }
     }, [favorites]);
     return (
         <>
-            {favorites?.length ? <div className={s.cards}>
+            {products?.length > 0 ? <motion.ul className={s.cards} variants={container}
+                                               initial="hidden"
+                                               whileInView="visible" viewport={{ once: true }}>
                 {products.length > 0 && products.map(el => (
-                    <ProductCard product={el} key={el.id}/>
+                    <motion.li key={el.id} variants={item}><ProductCard product={el} /></motion.li>
                 ))}
                 {favoritesFiltered.map(el =>
-                    <ProductCard
+                    <motion.li key={el} variants={item}><ProductCard
                         product={{
                             id: el,
                             title: 'Товар недоступен',
@@ -41,9 +45,9 @@ export default function FavoritesList() {
                             basic_price: 0,
                             visible: true
                         }}
-                        key={el}
-                    />)}
-            </div> : <Empty title={"Вы пока ничего не сохранили"}/>}
+
+                    /></motion.li>)}
+            </motion.ul> : <Empty title={"Вы пока ничего не сохранили"}/>}
         </>
 
     )

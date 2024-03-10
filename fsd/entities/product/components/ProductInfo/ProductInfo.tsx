@@ -63,7 +63,7 @@ export default function ProductInfo({product}: ProductInfoProps) {
                         <h3>Описание</h3>
                         <p>{product.description}</p>
                     </div>}
-                    {product.characteristics.map(ch => (
+                    {product.characteristics.sort((ch1, ch2) => ch1.characteristics_type.name.localeCompare(ch2.characteristics_type.name, 'ru', { sensitivity: 'base' })).map(ch => (
                         <div key={ch.id} className={s.characteristic}>
                             <h3>{ch.characteristics_type.name}</h3>
                             <p>{ch.name}</p>

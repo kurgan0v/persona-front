@@ -32,6 +32,7 @@ interface FiltersProps {
 }
 
 export default function Filters({currentPage, productCount, setProductCount, characteristics, sizes, prices, setProducts, category, section, categories, promo}: FiltersProps) {
+
     const searchParams = useSearchParams()
     const urlCh = searchParams.get('characteristics');
     const urlSizes = searchParams.get('sizes');
@@ -48,10 +49,8 @@ export default function Filters({currentPage, productCount, setProductCount, cha
     const [price, setPrice] = useState<number[]>(newPrices ? [newPrices[0] ?? prices.min, newPrices[1] ?? prices.max] : [prices.min ?? 0, prices.max ?? 0])
     const [debouncedPrice] = useCustomDebounce(price, 500);
     useEffect(() => {
-        if(price[0] !== prices.min || price[1] !== prices.max){
+        if(prices.max && ((price[0] !== prices.min || price[1] !== prices.max) || searchParams.get('prices'))){
             router.push(pathname + '?' + createQueryString('prices', debouncedPrice.join(',')))
-        } else {
-            router.push(pathname + '?' + createQueryString('prices', ''))
         }
     }, [debouncedPrice]);
     useEffect(() => {
@@ -112,8 +111,8 @@ export default function Filters({currentPage, productCount, setProductCount, cha
         }).then((res)=>{
             setProducts(res.products)
             setProductCount(res.total)
+            setFilterCount(+onlyNew + +onlySale + +!!productSizes.length + productCharacteristics.filter(c => c != undefined && c.length).length + +(!!prices.min && (debouncedPrice[0] !== prices.min || debouncedPrice[1] !== prices.max)))
         })
-        setFilterCount(+onlyNew + +onlySale + +!!productSizes.length + productCharacteristics.filter(c => c != undefined && c.length).length + +(!!prices.min && (debouncedPrice[0] !== prices.min || debouncedPrice[1] !== prices.max)))
     }, [searchParams]);
     const filters = characteristics ? [
         ...characteristics.map((ch) => (
@@ -183,6 +182,7 @@ export default function Filters({currentPage, productCount, setProductCount, cha
         let filteredSections = []
         if(sections){
             for(let el of sections){
+                if (el.is_uni && !el.sections.length) continue;
                 if(el.sections.length){
                     for(let section of el.sections){
                         filteredSections.push({
@@ -242,11 +242,12 @@ export default function Filters({currentPage, productCount, setProductCount, cha
                     options={categories?.map(el => (
                         {
                             label: el.name,
-                            value: el.link ? el.link : el.id
+                            value: el.link ? el.link : el.id,
+                            section_link: el.section?.link ?? ''
                         }
                     ))}
-                    onChange={(value)=>{
-                        router.push(`/${section}/${value}`)
+                    onChange={(value, origin)=>{
+                        router.push(`/${Array.isArray(origin) ? origin[0].section_link : origin.section_link}/${value}`)
                     }}
                 />
             </div>}

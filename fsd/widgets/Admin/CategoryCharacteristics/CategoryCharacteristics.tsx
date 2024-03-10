@@ -150,7 +150,7 @@ export default function CategoryCharacteristics({categoryId}: {categoryId: strin
                         <Input/>
                     </Form.Item>
                     <Form.Item name={'name'} label={'Отображаемое название'}>
-                        <Input/>
+                        <Input placeholder={'хлопок'}/>
                     </Form.Item>
                     <Form.Item>
                         <div className={s.btns}>

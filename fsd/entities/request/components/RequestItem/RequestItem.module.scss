@@ -19,8 +19,11 @@
   flex: 1;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   div{
     flex: 1;
+    min-width: max-content;
   }
   cursor: pointer;
 }
@@ -98,4 +101,5 @@
   width: 40rem;
   padding-top: 2rem;
 }
+
 

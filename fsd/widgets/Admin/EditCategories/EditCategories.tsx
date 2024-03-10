@@ -113,7 +113,7 @@ export default function EditCategories() {
                                 getCategories(e).then(r => setCategories(r))
                             }}>
                         {
-                            sections.filter(el => el.link).map(el => (
+                            sections.map(el => (
                                 <Option key={el.id} value={el.id}>{el.name}</Option>
                             ))
                         }
@@ -142,9 +142,19 @@ export default function EditCategories() {
                     </Form.Item>
                     {editingCategory && <Form.Item name={'section_id'} label={'Раздел'}>
                         <Select suffixIcon={<CaretDownFilled/>} className={s.select}>
-                            {isSuccess && sections.filter(el => el.link).map(el => (
+                            {isSuccess && sections.map(el => (
                                 <Option key={el.id} value={el.id}>{el.name}</Option>
                             ))}
+                        </Select>
+                    </Form.Item>}
+                    {editingCategory?.section?.is_uni && <Form.Item className={s.select} label={'Выберите разделы, где категория будет отображаться'} name={'advanced_sections'}>
+                        <Select
+                            suffixIcon={<CaretDownFilled/>} mode="multiple" className={s.select} placeholder={'Выберите разделы'}>
+                            {
+                                isSuccess && sections.filter(el => el.link).map(el => (
+                                    <Select.Option key={el.id} value={el.id}>{el.name}</Select.Option>
+                                ))
+                            }
                         </Select>
                     </Form.Item>}
                     <Form.Item name={'name'} label={'Отображаемое название'} rules={[
@@ -158,7 +168,7 @@ export default function EditCategories() {
                     <Form.Item name={'link'} label={'Cсылка'}>
                         <Input showCount placeholder={'jackets'}/>
                     </Form.Item>
-                    <Row gutter={30}>
+                    <Row gutter={30} className={s.row}>
                         <Col span={11}>
                             <Form.Item name={'visible'} label={'Отображать категорию'} valuePropName={'checked'}>
                                 <Switch/>

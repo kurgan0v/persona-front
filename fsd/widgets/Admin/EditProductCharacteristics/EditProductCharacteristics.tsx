@@ -43,9 +43,9 @@ export default function EditProductCharacteristics({characteristics, product, se
                         <QuestionCircleOutlined/>
                     </Tooltip>
                 </div>
-                <Row gutter={30}>
-                    {(characteristics && !!characteristics.length) && characteristics.map(el => (
-                        <Col key={el.id} span={8}>
+                {(characteristics && !!characteristics.length) ? <div className={s.columns}>
+                    {characteristics.map(el => (
+                        <div key={el.id}>
                             <Form.Item label={el.name} name={['characteristic', el.id]}>
                                 <Select className={s.select} suffixIcon={<CaretDownFilled/>} allowClear
                                         placeholder={'Не выбрано'} onChange={(e) => {
@@ -69,9 +69,9 @@ export default function EditProductCharacteristics({characteristics, product, se
                                 setOpenModalCharacteristic(true)
                                 characteristicForm.setFieldValue('type', el.id)
                             }}>Добавить значение</p>
-                        </Col>
+                        </div>
                     ))}
-                </Row>
+                </div> : <p>В категории пока нет характеристик</p>}
             </div>
             <Modal
                 open={openModalCharacteristicType}
@@ -88,6 +88,7 @@ export default function EditProductCharacteristics({characteristics, product, se
                                 getCharacteristicsTypes(product?.category_id).then(setCharacteristics)
                                 message.success('Характеристика создана')
                                 setOpenModalCharacteristicType(false)
+                                characteristicTypeForm.resetFields()
                             }
                         })
                     }}
@@ -127,6 +128,7 @@ export default function EditProductCharacteristics({characteristics, product, se
                                 getCharacteristicsTypes(product?.category_id).then(setCharacteristics)
                                 message.success('Значение характеристики создано')
                                 setOpenModalCharacteristic(false)
+                                characteristicForm.resetFields()
                             }
                         })
                     }}

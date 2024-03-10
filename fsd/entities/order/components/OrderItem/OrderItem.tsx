@@ -87,8 +87,10 @@ export default function OrderItem({order, setEditModal, opened}: OrderItemProps)
                     setOpen(!open)
                 }}>
                     <b className={s.info}>№{order.id}</b>
-                    <div><p className={clsx(s.status, status[order.status])}>{ORDER_STATUSES[order.status]}</p></div>
-                    <div>{dayjs(order.createdAt).format('DD.MM.YYYY HH:mm')}</div>
+                    <div className={s.infoOrder}>
+                        <div>{dayjs(order.createdAt).format('DD.MM.YYYY HH:mm')}</div>
+                        <div><p className={clsx(s.status, status[order.status])}>{ORDER_STATUSES[order.status]}</p></div>
+                    </div>
                     <CaretRightOutlined className={clsx(s.arrow, open && s.active)}/>
                 </div>
                 <EditIcon onClick={setEditModal}/>
@@ -96,7 +98,7 @@ export default function OrderItem({order, setEditModal, opened}: OrderItemProps)
 
             <div className={clsx(s.details, open && s.active)}>
                 <div className={s.items}>
-                    <div className={s.reserve}>
+                    {order.status < 3 && <div className={s.reserve}>
                         <Switch checked={reserved} onChange={async ()=>{
                             if(reserved){
                                 await unreserveItems(order.id)
@@ -108,7 +110,7 @@ export default function OrderItem({order, setEditModal, opened}: OrderItemProps)
                             setReserved(!reserved)
                         }}/>
                         <p>Резерв на позиции</p>
-                    </div>
+                    </div>}
                     {statuses}
                     {order.payment_method === 0 && order.status === 1 && <div className={s.paymentLink}>
                         <p>Ссылка для оплаты:</p>

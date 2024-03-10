@@ -33,8 +33,8 @@ export default function CreateProduct() {
             }}
             form={form}
         >
-            <Row gutter={30}>
-                <Col span={12}>
+            <div className={s.selects}>
+                <div>
                     <Form.Item label={'Раздел'} name={'section_id'} rules={[
                         {
                             required: true,
@@ -48,13 +48,13 @@ export default function CreateProduct() {
                                         getCategories(e).then(setCategories)
                                     }}>
                                 {
-                                    sections.filter(el => el.link).map(el => (
+                                    sections.map(el => (
                                         <Option key={el.id} value={el.id}>{el.name}</Option>
                                     ))
                                 }
                             </Select>}</Form.Item>
-                </Col>
-                {categories && <Col span={12}><Form.Item name={'category_id'} label={'Категория'} rules={[
+                </div>
+                <div>{categories && <Form.Item name={'category_id'} label={'Категория'} rules={[
                     {
                         required: true,
                         message: 'Это обязательное поле'
@@ -65,8 +65,8 @@ export default function CreateProduct() {
                     {categories.map(el => (
                         <Option key={el.id} value={el.id}>{el.name}</Option>
                     ))}
-                </Select></Form.Item></Col>}
-            </Row>
+                </Select></Form.Item>}</div>
+            </div>
 
             <Form.Item name={'title'} label={'Название'} rules={[
                 {

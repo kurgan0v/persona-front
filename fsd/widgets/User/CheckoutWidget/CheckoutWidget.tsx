@@ -294,7 +294,7 @@ export default function CheckoutWidget() {
                                 }
                             ]}>
                                 <Radio.Group>
-                                    <Radio value={'ip'}>Физ. лицо</Radio>
+                                    <Radio value={'ip'}>ИП</Radio>
                                     <Radio value={'company'}>Юр. лицо</Radio>
                                 </Radio.Group>
                             </Form.Item>
@@ -405,6 +405,10 @@ export default function CheckoutWidget() {
                                 required: true,
                                 message: 'Это обязательное поле'
                             },
+                            {
+                                len: 16,
+                                message: 'Некорректный номер'
+                            }
                         ]}>
                             <MaskedInput mask={'+{7}(000)000-00-00'} maskOptions={{lazy: true}}
                                          placeholder={'+7(000)000-00-00'}/>

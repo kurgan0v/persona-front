@@ -38,13 +38,14 @@ const UploadImage = ({list, changeImage, setFileList, maxLength, multiple}: Prop
                 message.error('Загружаемый файл не является изображением!');
             } else {
                 setFileList(fileList)
-                if(file.status === 'done'){
-                    changeImage(file.response, fileList);
-
-                }
-                if(file.status === 'removed'){
-                    changeImage('', fileList);
-                }
+                setTimeout(()=>{
+                    if(file.status === 'done'){
+                        changeImage(file.response, fileList);
+                    }
+                    if(file.status === 'removed'){
+                        changeImage('', fileList);
+                    }
+                }, 0)
             }
 
         },

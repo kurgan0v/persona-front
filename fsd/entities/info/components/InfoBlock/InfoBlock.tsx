@@ -11,13 +11,15 @@ interface InfoBlockProps {
 export default function InfoBlock({info, onEditClick}:InfoBlockProps){
     return(
         <div className={clsx(s.wrapper, !info.visible && s.hidden)}>
-            <div className={s.img}>
-                <CustomImage src={info.cover} alt={info.name} width={400} height={400}/>
-            </div>
-            <div className={s.content}>
-                <div className={s.header}>
-                    <h3>{info.name}</h3>
-                    {info.text.split('\n').map((t, i) => (<p key={i}>{t}<br/></p>))}
+            <div className={s.contentWrapper}>
+                {info.cover && <div className={s.img}>
+                    <CustomImage src={info.cover} alt={info.name} width={400} height={400}/>
+                </div>}
+                <div className={s.content}>
+                    <div className={s.header}>
+                        <h3>{info.name}</h3>
+                        {info.text.split('\n').map((t, i) => (<p key={i}>{t}<br/></p>))}
+                    </div>
                 </div>
             </div>
             <div className={s.buttons}>

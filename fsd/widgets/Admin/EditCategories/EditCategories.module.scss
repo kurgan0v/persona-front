@@ -20,3 +20,22 @@
 .select{
   height: auto;
 }
+@media (max-width: 1200px) {
+  .wrapper{
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .sections{
+    width: 100%;
+  }
+  .row{
+    flex-direction: column;
+    div{
+      flex: 1;
+      max-width: 100%;
+    }
+  }
+
+}

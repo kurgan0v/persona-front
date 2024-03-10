@@ -16,8 +16,10 @@
 .select{
   height: auto;
 }
-/*.sections{
-  width: 20rem;
-  height: auto;
-}*/
 
+
+@media (max-width: 1200px) {
+  .wrapper{
+    gap: 1rem;
+  }
+}

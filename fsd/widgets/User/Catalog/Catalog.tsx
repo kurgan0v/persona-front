@@ -6,11 +6,14 @@ import Empty from "@/fsd/shared/ui/Empty/Empty";
 import {useQuery} from "react-query";
 import {Breadcrumb, Pagination} from "antd";
 import Link from "next/link";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {IProductDetail} from "@/fsd/entities/product/model";
 import {GetCategoryInfoFetcher} from "@/fsd/shared/api/category";
+import {motion, useAnimationControls} from 'framer-motion';
+import {container, item} from "@/fsd/app/const/framer-motion-options";
 
 export default function Catalog({params, promo}:{params?: { category?: string , section: string}, promo?: string}) {
+    const controls = useAnimationControls()
     const [products, setProducts] = useState<IProductDetail[]>([]);
     const [productCount, setProductCount] = useState(0);
     const [currentPage, setCurrentPage] = useState<number|undefined>(undefined);
@@ -28,6 +31,9 @@ export default function Catalog({params, promo}:{params?: { category?: string , 
             title: <p>{data.category.name}</p>,
         })
     }
+    useEffect(() => {
+        controls.start('visible')
+    }, [products.length]);
     return (
         <div>
         {isSuccess && <div className={s.wrapper}>
@@ -51,9 +57,11 @@ export default function Catalog({params, promo}:{params?: { category?: string , 
                         <h2>{(data?.section || data?.promo) && !data.category ? data.section ? data.section.name : data.promo?.title : data?.category?.name ?? 'Каталог'}</h2>
                         <p className={s.count}>Найдено: {productCount}</p>
                     </div>
-                    {products.length ? <div className={s.wrapperProducts}>{products.map(product => (
-                        <ProductCard product={product} section={params?.section} category={product.category?.link ? product.category?.link : product.category_id} key={product.id}/>
-                    ))}</div> : <Empty title={'Ничего не найдено'}/>}
+                    <div>{products.length ? <motion.ul animate={controls} variants={container}
+                                                  initial="hidden"
+                                                  whileInView="visible"  className={s.wrapperProducts}>{products.map(product => (
+                        <motion.li variants={item} key={product.id}><ProductCard product={product} section={params?.section ? params.section : product.category?.section.link} category={product.category?.link ? product.category?.link : product.category_id} /></motion.li>
+                    ))}</motion.ul> : <Empty title={'Ничего не найдено'}/>}</div>
                     <Pagination hideOnSinglePage current={currentPage} onChange={setCurrentPage} pageSize={15} total={productCount}/>
                 </div>
             </div>

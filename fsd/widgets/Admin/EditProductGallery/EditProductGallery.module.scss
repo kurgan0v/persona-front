@@ -1,3 +1,6 @@
+.wrapper{
+  margin-bottom: 1rem;
+}
 .image{
   width: 10rem;
   min-width: 10rem;
@@ -11,7 +14,7 @@
   max-width: 50rem;
   align-items: center;
   overflow-x: scroll;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   &::-webkit-scrollbar {
     height: 3px;
   }
@@ -22,8 +25,36 @@
     background: var(--dark-grey);
   }
 }
+.clue{
+  font-size: 0.875rem;
+  color: var(--dark-grey);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  svg{
+    margin: 0 0.5rem;
+  }
+}
 .subtitle{
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-size: 1rem;
   font-weight: 500;
+}
+@media (max-width: 991px) {
+  .wrapperImages{
+    max-width: 100%;
+    flex-wrap: wrap;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .clue{
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .image{
+    min-width: 5rem;
+    width: 5rem;
+    height: 5rem;
+  }
 }

@@ -5,4 +5,12 @@
   row-gap: 2rem;
   min-height: 100vh;
   padding-top: 2rem;
+  max-height: 100vh;
+  overflow: hidden;
+}
+@media(max-width: 991px){
+  .wrapper{
+    overflow: visible;
+    max-height: unset;
+  }
 }

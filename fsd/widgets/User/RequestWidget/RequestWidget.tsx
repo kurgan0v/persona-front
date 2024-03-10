@@ -81,6 +81,9 @@ export default function RequestWidget(){
                     <Form.Item name={'phone'} label={'Ваш телефон'} rules={[{
                         required: true,
                         message: 'Это обязательное поле'
+                    }, {
+                        len: 16,
+                        message: 'Некорректный номер'
                     }]}>
                         <MaskedInput mask={'+{7}(000)000-00-00'} maskOptions={{lazy: true}}/>
                     </Form.Item>

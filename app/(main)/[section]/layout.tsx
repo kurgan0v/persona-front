@@ -6,7 +6,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const res = await fetch(`${process.env.APP_BASE_URL}/section/seo/${params.section}`, { next: { revalidate: 86400 } })
+    const res = await fetch(`${process.env.APP_BASE_URL}/section/seo/${params.section}`, { next: { revalidate: 0 } })
     if(res.status === 404){
         return notFound()
     }

@@ -105,7 +105,8 @@
   border-color: var(--primary);
   background: var(--primary);
   &:hover{
-    background: var(--primary-dark);
+    color: var(--primary-dark);
+    background: var(--primary-dark) !important;
   }
 }
 .quantity{

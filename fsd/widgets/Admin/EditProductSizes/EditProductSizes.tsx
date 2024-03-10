@@ -35,7 +35,7 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                     }}/>
                 </div>
                 <div className={s.sizes}>
-                    {sizes.map(size => (
+                    {sizes.length ? sizes.map(size => (
                         <div
                             className={clsx(s.size, !product?.sizes.find(e => e.id === size.id)?.ProductSize?.quantity && s.emptySize)}
                             key={size.id}
@@ -50,7 +50,7 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                                 setOpenModalProductSize(true)
                             }}
                         >{size.name}</div>
-                    ))}
+                    )) : <p>В категории пока нет размеров</p>}
                 </div>
             </div>
             <Modal
@@ -68,6 +68,7 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                                 getSizes(product?.category_id).then(setSizes)
                                 message.success('Размер добавлен')
                                 setOpenModalSize(false)
+                                sizeForm.resetFields()
                             }
                         })
                     }}
@@ -105,6 +106,7 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                             refetch()
                             message.success('Наличие товара обновлено')
                             setOpenModalProductSize(false)
+                            productSizeForm.resetFields()
                         })
                     }}
                 >

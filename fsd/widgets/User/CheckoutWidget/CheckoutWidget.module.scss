@@ -190,7 +190,7 @@
 
 .row{
   display: flex;
-  gap: 1rem;
+  gap: 3rem;
   justify-content: space-between;
 }
 .column{
@@ -199,6 +199,7 @@
 @media (max-width: 1050px) {
   .row{
     display: flex;
+    gap: 1rem;
     flex-direction: column;
   }
   .column{

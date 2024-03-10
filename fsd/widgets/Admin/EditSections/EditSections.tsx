@@ -49,8 +49,8 @@ export default function EditSections(){
     const onFinishForm = async (values: SectionUpdateFetcherRequest) => {
         await updateSection(values);
         setEditingSection(undefined);
-        await message.success('Данные раздела обновлены')
         await refetchSections();
+        await message.success('Данные раздела обновлены')
     }
     return(
         <div className={s.wrapper}>

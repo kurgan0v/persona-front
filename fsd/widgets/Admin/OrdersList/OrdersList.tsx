@@ -31,26 +31,26 @@ export default function OrdersList() {
             {isSuccess && <>
 
                 <Form layout={'vertical'}>
-                    <Row gutter={30}>
-                        <Col span={8}>
+                    <div className={s.filters}>
+                        <div >
                             <Form.Item label={'Начало периода'}>
                                 <DatePicker value={dateStart} locale={locale} onChange={(e, s)=> {setDateStart(e)}}/>
                             </Form.Item>
-                        </Col>
-                        <Col span={8}>
+                        </div>
+                        <div >
                             <Form.Item label={'Конец периода'}>
                                 <DatePicker value={dateEnd} locale={locale}  onChange={(e, s)=> {setDateEnd(e)}}/>
                             </Form.Item>
-                        </Col>
-                        <Col span={8}>
+                        </div>
+                        <div>
                             <Form.Item label={'Статус заказа'}>
                                 <Select value={status} onChange={setStatus} placeholder={'Все'} mode={'multiple'} showSearch={false} className={s.select}>
                                     {ORDER_STATUSES.map((el, i) => <Select.Option key={i}
                                                                                  value={i}>{el}</Select.Option>)}
                                 </Select>
                             </Form.Item>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 </Form>
                 <div className={s.list}>
                     {orders?.orders?.length ? orders?.orders.map((el) =>

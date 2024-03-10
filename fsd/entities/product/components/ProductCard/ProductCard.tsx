@@ -13,17 +13,13 @@ interface ProductCardProps{
     section?: string
     category?: string
 }
-const ProductCard:React.FC<ProductCardProps> = ({product, section, category}) => {
+const ProductCard:React.FC<ProductCardProps> = ({product}) => {
     const favorites = useFavoritesStore((state)=>state.favorites);
     const setFavorites = useFavoritesStore((state)=>state.setFavorites);
     return (
        <div className={s.wrapper}>
            <FavoriteCatalog isActive={favorites.includes(product.id)} onClick={()=>setFavorites(product.id)}/>
-           <Link href={
-               product.category ? product.category?.section ?
-               `/${product?.category?.section.link}/${product?.category?.link ? product?.category?.link : product?.category?.id}/${product.id}` :
-                   `/${section}/${category}/${product.id}` : ''
-           } >
+           <Link href={`/product/${product.id}`}>
                <ProductCardBasic product={product}/>
            </Link>
        </div>

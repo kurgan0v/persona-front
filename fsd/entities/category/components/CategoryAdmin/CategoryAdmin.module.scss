@@ -31,3 +31,21 @@
   flex-direction: column;
   row-gap: 0.5rem;
 }
+.wrapperContent{
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  flex: 1;
+}
+@media (max-width: 576px) {
+  .wrapperContent{
+    flex-direction: column;
+  }
+  .section{
+    width: 100%;
+    padding: 0.5rem;
+  }
+  .content h3{
+    font-size: 1rem;
+  }
+}

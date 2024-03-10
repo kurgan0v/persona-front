@@ -18,9 +18,9 @@ const linguisticsPro = localFont({
 
 
 export async function generateMetadata(): Promise<Metadata> {
-    const res = await fetch(`${process.env.APP_BASE_URL}/seo/main`, { next: { revalidate: 86400 } })
+    const res = await fetch(`${process.env.APP_BASE_URL}/seo/metadata/main`, { next: { revalidate: 0 } })
     try{
-        return await res.json()
+        return await res.json();
     } catch (e) {
         return {}
     }
@@ -51,6 +51,8 @@ export default function RootLayout({
             <meta name="msapplication-TileColor" content="#ffffff"/>
             <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
             <meta name="theme-color" content="#ffffff"/>
+            <meta name="yandex-verification" content="423121c208931ad9" />
+            <meta name="google-site-verification" content="1r4qHuWI-c6q4e-Cg4qDzeyYr8bLjqlwacS2RhpNQEg" />
         </head>
         <body>
         <main>

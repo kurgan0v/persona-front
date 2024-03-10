@@ -13,10 +13,12 @@ interface SectionAdminProps{
 export default function CategoryAdmin({category, onEditClick, onDeleteClick}: SectionAdminProps){
     return(
         <div className={clsx(s.section, !category.visible && s.hidden)}>
-            {category.cover && <div className={s.cover}><CustomImage src={category.cover} alt={''} fill/></div>}
-            <div className={s.content}>
-                <h3>{category.name}</h3>
-                <p>/{category.link}</p>
+            <div className={s.wrapperContent}>
+                {category.cover && <div className={s.cover}><CustomImage src={category.cover} alt={''} fill/></div>}
+                <div className={s.content}>
+                    <h3>{category.name}</h3>
+                    <p>/{category.link}</p>
+                </div>
             </div>
             <div className={s.buttons}>
                 <Delete onConfirm={onDeleteClick} description={'Вы уверены, что хотите удалить категорию?'}/>

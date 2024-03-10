@@ -1,7 +1,7 @@
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
 type Props = {
-    params: { category: string , section: string, product: string};
+    params: {product: string};
 };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const res = await fetch(`${process.env.APP_BASE_URL}/product/seo/${params.product}`, { next: { revalidate: 86400 } })

@@ -18,7 +18,7 @@ export default function Login() {
         <div className={s.wrapper}>
             <Image src={'/login_bg.jpg'} alt={''} fill className={s.bg}/>
             <div className={s.loginForm}>
-                <Logo/>
+                <Logo className={s.img}/>
                 <h2 className={s.title}>Вход</h2>
                 <LoginWidget/>
             </div>

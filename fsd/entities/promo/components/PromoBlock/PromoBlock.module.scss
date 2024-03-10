@@ -1,13 +1,18 @@
 .wrapper{
   display: flex;
   align-items: stretch;
-  column-gap: 1rem;
+  gap: 1rem;
   padding: 1rem;
   border-radius: 3px;
   border: 1px solid var(--dark-grey);
   &.hidden{
     opacity: .6;
   }
+}
+.contentWrapper{
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
 }
 .content{
   flex: 1;
@@ -33,4 +38,16 @@
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
+}
+
+@media (max-width: 991px) {
+  .contentWrapper{
+    flex-direction: column;
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .img{
+    width: 100%;
+  }
 }

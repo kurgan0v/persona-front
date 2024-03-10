@@ -28,11 +28,9 @@ const Header = () => {
     }, [pathname]);
     return (
         <>
-            <Link href={'/'}>
-                <div className={clsx(s.logo, s.logoMobile)}>
-                    <Image src={'/logo.png'} alt={'Ателье Персона'} fill/>
-                </div>
-            </Link>
+            <div className={clsx(s.logo, s.logoMobile)}>
+                <Image src={'/logo.png'} alt={'Ателье Персона'} fill/>
+            </div>
             <div className={clsx(s.menuWrapper, openMenu && s.opened)} onClick={(e) => {
                 setOpenMenu(false)
             }}>
@@ -44,6 +42,9 @@ const Header = () => {
                     </Link>
                     {isSuccess && <>
                         <div className={s.mainLinks}>
+                            <Link
+                                className={clsx(s.mainLink, s.mainLinkMobile)}
+                                href={`/`}>На главную</Link>
                             {sections.filter(s => s.is_main).map(l => (
                                 l.sections.length ? <Dropdown
                                     className={clsx(s.mainLink, (activeRoute === 'boys' || activeRoute === 'girls') && s.activeLink)}
@@ -64,11 +65,9 @@ const Header = () => {
                         </div>
                         <div className={s.otherLinks}>
                             <Link className={s.otherLink} href={`/personal`}>Индивидуальный<br/> пошив</Link>
-                            {sections.filter(s => !s.is_main).map(el => (
-                                <Link key={el.id}
-                                      className={clsx(s.otherLink, activeRoute === 'uniform' && s.activeLink)}
-                                      href={`/uniform`}>Форменное и военное<br/> обмундирование</Link>
-                            ))}
+                            <Link
+                                  className={clsx(s.otherLink, activeRoute === 'uniform' && s.activeLink)}
+                                  href={`/uniform`}>Форменное и военное<br/> обмундирование</Link>
                         </div>
                     </>}
                     <div className={s.actions}>
