@@ -151,7 +151,7 @@ export default function EditCategories() {
                         <Select
                             suffixIcon={<CaretDownFilled/>} mode="multiple" className={s.select} placeholder={'Выберите разделы'}>
                             {
-                                isSuccess && sections.filter(el => el.link).map(el => (
+                                isSuccess && sections.filter(el => !el.is_uni).map(el => (
                                     <Select.Option key={el.id} value={el.id}>{el.name}</Select.Option>
                                 ))
                             }
@@ -184,13 +184,13 @@ export default function EditCategories() {
                     {editingCategory?.id && <CategoryCharacteristics categoryId={editingCategory.id}/>}
                     {editingCategory?.id && <CategorySizes categoryId={editingCategory.id}/>}
                     <Form.Item name={'seo_title'} label={'SEO заголовок'}>
-                        <Input/>
+                        <Input placeholder={'Ателье «Персона» · Спортивные костюмы'}/>
                     </Form.Item>
                     <Form.Item name={'seo_description'} label={'SEO описание'}>
-                        <Input/>
+                        <Input placeholder={'Женская одежда в Саратове: костюмы для девушек в разных цветах и размерах'}/>
                     </Form.Item>
                     <Form.Item name={'seo_keywords'} label={'Ключевые слова'}>
-                        <Input/>
+                        <Input placeholder={'персона, ателье саратов, одежда, женская одежда'}/>
                     </Form.Item>
                     <Form.Item>
                         <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>

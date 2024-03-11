@@ -105,7 +105,12 @@ export default function CategorySizes({categoryId}:{categoryId: string}){
                     <Form.Item name={'category'} hidden>
                         <Input/>
                     </Form.Item>
-                    <Form.Item name={'name'} label={'Отображаемое название'}>
+                    <Form.Item name={'name'} label={'Отображаемое название'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         <Input placeholder={'S'}/>
                     </Form.Item>
                     <Form.Item name={'value'} label={'Значение в размерной сетке'}>

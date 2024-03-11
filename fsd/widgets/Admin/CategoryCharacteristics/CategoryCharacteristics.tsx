@@ -100,7 +100,12 @@ export default function CategoryCharacteristics({categoryId}: {categoryId: strin
                     <Form.Item name={'category'} hidden>
                         <Input/>
                     </Form.Item>
-                    <Form.Item name={'name'} label={'Отображаемое название'}>
+                    <Form.Item name={'name'} label={'Отображаемое название'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         <Input placeholder={'Материал'}/>
                     </Form.Item>
                     <Form.Item name={'is_filtered'} label={'Использовать характеристику в фильтрах'} valuePropName={'checked'}>
@@ -149,7 +154,12 @@ export default function CategoryCharacteristics({categoryId}: {categoryId: strin
                     <Form.Item name={'type'} hidden>
                         <Input/>
                     </Form.Item>
-                    <Form.Item name={'name'} label={'Отображаемое название'}>
+                    <Form.Item name={'name'} label={'Отображаемое название'} rules={[
+                        {
+                            required: true,
+                            message: 'Это обязательное поле'
+                        }
+                    ]}>
                         <Input placeholder={'хлопок'}/>
                     </Form.Item>
                     <Form.Item>

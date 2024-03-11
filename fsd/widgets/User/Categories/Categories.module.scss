@@ -17,11 +17,17 @@
   grid-column-start: 1;
   grid-column-end: 2;
 }
-.category:nth-of-type(4){
-  grid-row-start: 2;
-  grid-row-end: 3;
-  grid-column-start: 2;
+.category:nth-of-type(5){
+  grid-row-start: 3;
+  grid-row-end: 5;
+  grid-column-start: 3;
   grid-column-end: 4;
+}
+.category:nth-of-type(10){
+  grid-row-start: 5;
+  grid-row-end: 7;
+  grid-column-start: 1;
+  grid-column-end: 2;
 }
 @media (max-width: 991px) {
   .categories{
