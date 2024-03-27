@@ -116,8 +116,8 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                     <Form.Item name={'sizeId'} hidden={true}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item name={'barcodeId'} label={'Id в 1С'}>
-                        <Input placeholder={'eecef378-4703-11ee-94ed-bad53580fd51'}/>
+                    <Form.Item name={'barcodeId'} label={'Штрихкод в 1С'}>
+                        <Input placeholder={'2038140115031'}/>
                     </Form.Item>
                     <Form.Item className={s.formItem} name={'quantity'} label={'В наличии, шт'} required={false}
                                rules={[
