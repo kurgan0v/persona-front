@@ -40,7 +40,7 @@ export default function CheckoutWidget() {
     const [city, setCity] = useState<City | undefined>();
     useEffect(() => {
         if(cart && cartInfo.products){
-            if(cartInfo.products.length !== cart.items.length){
+            if(cart?.items.filter(el => !cartInfo.products?.find(c => c.id === el.product_id)).length){
                 push('/cart')
             }
         }

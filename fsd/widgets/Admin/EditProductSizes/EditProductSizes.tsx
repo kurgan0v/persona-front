@@ -37,7 +37,7 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                 <div className={s.sizes}>
                     {sizes.length ? sizes.map(size => (
                         <div
-                            className={clsx(s.size, !product?.sizes.find(e => e.id === size.id)?.ProductSize?.quantity && s.emptySize)}
+                            className={clsx(s.size, !product?.sizes.find(e => e.id === size.id)?.ProductSize?.quantity && s.emptySize, product?.sizes.find(e => e.id === size.id)?.ProductSize?.barcodeId && s.withBarcode)}
                             key={size.id}
                             onClick={() => {
                                 const quantity = product?.sizes.find(e => e.id === size.id)?.ProductSize?.quantity
@@ -121,10 +121,7 @@ export default function EditProductSizes({sizes, product, setSizes, refetch}: Ed
                     </Form.Item>
                     <Form.Item className={s.formItem} name={'quantity'} label={'В наличии, шт'} required={false}
                                rules={[
-                                   {
-                                       required: true,
-                                       message: 'Это обязательное значение'
-                                   },
+
                                    {
                                        min: 0,
                                        type: 'number',

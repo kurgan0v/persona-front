@@ -32,7 +32,7 @@ export default function CartItems() {
                             <p className={s.price}>{cartInfo.total.toLocaleString()} ₽</p>
                         </div>
                     </div>
-                    <Button type={'primary'} disabled={cartInfo.products?.length !== cart?.items.length}><Link href={'/checkout'}>Продолжить</Link></Button></> :
+                    <Button type={'primary'} disabled={!!cart?.items.filter(el => !cartInfo.products?.find(c => c.id === el.product_id)).length}><Link href={'/checkout'}>Продолжить</Link></Button></> :
                 <Empty title={'Вы еще ничего не добавили'}/>}
         </>
     )

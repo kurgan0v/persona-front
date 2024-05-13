@@ -36,7 +36,7 @@ export default function ClientProvider({
             <QueryClientProvider client={queryClient}>
                 {contextHolder}
                 <AntdThemeProvider>
-                    <NextTopLoader color="#FF735C"/>
+                    <NextTopLoader color="#FF735C" />
                     {children}
                 </AntdThemeProvider>
             </QueryClientProvider>

@@ -44,7 +44,7 @@ export default function CreateProduct() {
                         {isSuccess &&
                             <Select suffixIcon={<CaretDownFilled/>} className={s.select} placeholder={'Выберите раздел'}
                                     onChange={(e) => {
-                                        form.setFieldValue('category_id', '')
+                                        form.setFieldValue('category_id', undefined)
                                         getCategories(e).then(setCategories)
                                     }}>
                                 {
@@ -74,7 +74,7 @@ export default function CreateProduct() {
                     message: 'Это обязательное поле'
                 }
             ]}>
-                <Input  showCount placeholder={'Рубашка белая'}/>
+                <Input showCount placeholder={'Рубашка белая'}/>
             </Form.Item>
             <Form.Item name={'basic_price'} label={'Базовая стоимость'} rules={[
                 {

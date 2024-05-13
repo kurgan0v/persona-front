@@ -15,7 +15,7 @@ export type GetProductsFilteredRequest = {
     characteristics?: string[][]
     price?: number[]
     promo?: string
-    page?: number
+    page?: number | string
 }
 export type GetProductsQueryFetcherRequest = {
     category: string

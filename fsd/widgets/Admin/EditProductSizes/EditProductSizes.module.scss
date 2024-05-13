@@ -56,7 +56,9 @@
 .emptySize {
   opacity: .5;
 }
-
+.withBarcode{
+  border-color: var(--primary);
+}
 .formItem {
   margin-bottom: 3rem;
 }

@@ -14,7 +14,8 @@ import {useFavoritesStore} from "@/fsd/app/store/favorites";
 import {useStore} from "@/fsd/app/hooks/useStore";
 import {useCartStore} from "@/fsd/app/store/cart";
 import Burger from "@/fsd/shared/ui/icons/Burger/Burger";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
+import {Metrika} from "@/fsd/widgets/User/Metrika/Metrika";
 
 const Header = () => {
     const {data: sections, isSuccess, isError} = useQuery(['sections'], SectionsFetcher);
@@ -28,6 +29,9 @@ const Header = () => {
     }, [pathname]);
     return (
         <>
+            {process.env.NODE_ENV === 'production' && <Suspense>
+                <Metrika/>
+            </Suspense>}
             <div className={clsx(s.logo, s.logoMobile)}>
                 <Image src={'/logo.png'} alt={'Ателье Персона'} fill/>
             </div>
@@ -66,8 +70,8 @@ const Header = () => {
                         <div className={s.otherLinks}>
                             <Link className={s.otherLink} href={`/personal`}>Индивидуальный<br/> пошив</Link>
                             <Link
-                                  className={clsx(s.otherLink, activeRoute === 'uniform' && s.activeLink)}
-                                  href={`/uniform`}>Форменное и военное<br/> обмундирование</Link>
+                                className={clsx(s.otherLink, activeRoute === 'uniform' && s.activeLink)}
+                                href={`/uniform`}>Форменное и военное<br/> обмундирование</Link>
                         </div>
                     </>}
                     <div className={s.actions}>

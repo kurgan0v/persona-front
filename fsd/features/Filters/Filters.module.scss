@@ -90,6 +90,16 @@
 .activeCollapse{
   border-color: var(--primary) !important;
 }
+.selectLinks{
+  :global(.ant-select-item-option){
+    padding: 0 !important;
+  }
+}
+.selectLink{
+  padding: 0.5rem 1rem;
+  width: 100%;
+  display: block;
+}
 @media (max-width: 450px){
   .options{
     width: 100%;

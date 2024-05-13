@@ -1,119 +1,128 @@
 "use client";
 import s from './Filters.module.scss';
-import {Badge, Col, Collapse, CollapseProps, Form, Row, Select, Slider, Switch} from "antd";
+import {Badge, Collapse, CollapseProps, Select, Slider, Switch} from "antd";
 import {CaretDownFilled, CaretRightOutlined} from "@ant-design/icons";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {memo, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {ICharacteristicType} from "@/fsd/entities/characteristics/model";
 import {ISize} from "@/fsd/entities/size/model";
-import {useMutation, useQuery} from "react-query";
+import {useQuery} from "react-query";
 import {GetProductsFilteredFetcher} from "@/fsd/shared/api/products";
-import {IProduct, IProductDetail} from "@/fsd/entities/product/model";
-import useCustomDebounce from "@/fsd/shared/hooks/useCustomDebounce";
 import {clsx} from "clsx";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {SectionsFetcher} from "@/fsd/shared/api/section";
 import {ICategory} from "@/fsd/entities/category/model";
+import Link from "next/link";
+import {IProductDetail} from "@/fsd/entities/product/model";
 
 interface FiltersProps {
-    currentPage: number | undefined
-    productCount: number
-    setProductCount: React.Dispatch<React.SetStateAction<number>>
     category?: string
     section?: string
+    promo?: string
     characteristics: ICharacteristicType[]
     sizes: ISize[]
-    setProducts: React.Dispatch<React.SetStateAction<IProductDetail[]>>
     prices: {
         min: number | null
         max: number | null
     }
     categories?: ICategory[]
-    promo?: string
+    page: number
+    setPage: React.Dispatch<React.SetStateAction<number>>
+    setProducts: React.Dispatch<React.SetStateAction<IProductDetail[]>>
+    setProductCount: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Filters({currentPage, productCount, setProductCount, characteristics, sizes, prices, setProducts, category, section, categories, promo}: FiltersProps) {
-
+export const Filters = ({
+                            page,
+                            setPage,
+                            setProductCount,
+                            setProducts,
+                            category,
+                            section,
+                            promo,
+                            characteristics,
+                            sizes,
+                            prices,
+                            categories}: FiltersProps) => {
     const searchParams = useSearchParams()
+    const urlPrices = searchParams.get('prices');
+    const newPrices = urlPrices?.split(',').map(el => +el).slice(0, 2);
+    const [price, setPrice] = useState<number[]>(newPrices ? [newPrices[0] ?? prices.min, newPrices[1] ?? prices.max] : [prices.min ?? 0, prices.max ?? 0])
     const urlCh = searchParams.get('characteristics');
     const urlSizes = searchParams.get('sizes');
-    const urlPrices = searchParams.get('prices');
-    const {data: sections, isSuccess: isSuccessSections} = useQuery(['sections'], SectionsFetcher);
-    const newPrices = urlPrices?.split(',').map(el => +el).slice(0,2);
-    const {mutateAsync: getProducts} = useMutation(GetProductsFilteredFetcher);
+    const {data: sections} = useQuery(['sections'], SectionsFetcher);
+    const {} = useQuery([], () => GetProductsFilteredFetcher({
+        category,
+        section,
+        promo,
+        price: price,
+        page: page,
+        is_new: onlyNew,
+        sale: onlySale,
+        sizes: productSizes,
+        sortType,
+        characteristics: productCharacteristics
+    }).then((res) => {
+        setProducts(res.products)
+        setProductCount(res.total)
+        setFilterCount(+onlyNew + +onlySale + +!!productSizes.length + productCharacteristics.filter(c => c != undefined && c.length).length + +(!!prices.min && (price[0] !== prices.min || price[1] !== prices.max)))
+    }));
+
     const [filterCount, setFilterCount] = useState(0);
     const [sortType, setSortType] = useState(searchParams.get('sort') ?? 'name');
     const [onlyNew, setOnlyNew] = useState(!!searchParams.get('new'));
     const [onlySale, setOnlySale] = useState(!!searchParams.get('sale'));
-    const [productCharacteristics, setProductCharacteristics] = useState<string[][]>(urlCh ? urlCh.split(':').map((t)=> t ? t.split(',') : []) : []);
+    const [productCharacteristics, setProductCharacteristics] = useState<string[][]>(urlCh ? urlCh.split(':').map((t) => t ? t.split(',') : []) : []);
     const [productSizes, setProductSizes] = useState<string[]>(urlSizes ? urlSizes.split(',') : []);
-    const [price, setPrice] = useState<number[]>(newPrices ? [newPrices[0] ?? prices.min, newPrices[1] ?? prices.max] : [prices.min ?? 0, prices.max ?? 0])
-    const [debouncedPrice] = useCustomDebounce(price, 500);
     useEffect(() => {
-        if(prices.max && ((price[0] !== prices.min || price[1] !== prices.max) || searchParams.get('prices'))){
-            router.push(pathname + '?' + createQueryString('prices', debouncedPrice.join(',')))
+        if(page > 1){
+            router.push(pathname + '?' + createQueryString({name: 'page', value: `${page}`}))
         }
-    }, [debouncedPrice]);
-    useEffect(() => {
-        if(currentPage){
-            router.push(pathname + '?' + createQueryString('page', `${currentPage}`))
+        if(page === 1 && searchParams.get('page')){
+            router.push(pathname + '?' + createQueryString({name: 'page', value: ""}))
         }
-    }, [currentPage]);
+    }, [page]);
+
     const router = useRouter();
     const pathname = usePathname();
     const createQueryString = useCallback(
-        (name: string, value: string) => {
+        (param: { name: string, value: string }, resetPage?: boolean) => {
             const params = new URLSearchParams(searchParams)
-            if(value){
-                params.set(name, value)
+            if (resetPage) {
+                params.delete('page')
+            }
+            if (param.value) {
+                params.set(param.name, param.value)
             } else {
-                params.delete(name)
+                params.delete(param.name)
             }
             return params.toString()
         },
         [searchParams]
     )
     const choseSize = (e: string) => {
-        let newSizes:string[] = [];
-        if(!productSizes.includes(e)){
+        let newSizes: string[] = [];
+        if (!productSizes.includes(e)) {
             newSizes = [...productSizes, e]
-        } else{
+        } else {
             newSizes = productSizes.filter(s => s !== e)
         }
         setProductSizes(newSizes)
-        router.push(pathname + '?' + createQueryString('sizes', newSizes.join(',')))
+        router.push(pathname + '?' + createQueryString({name: 'sizes', value: newSizes.join(',')}, true))
     }
     const choseCharacteristic = (e: string, i: number) => {
         let newCharacteristics: string[][] = JSON.parse(JSON.stringify(productCharacteristics))
-        if(newCharacteristics[i]){
-            if(!newCharacteristics[i].includes(e)){
+        if (newCharacteristics[i]) {
+            if (!newCharacteristics[i].includes(e)) {
                 newCharacteristics[i] = [...newCharacteristics[i], e];
-            }else{
+            } else {
                 newCharacteristics[i] = newCharacteristics[i].filter(s => s !== e)
             }
         } else {
             newCharacteristics[i] = [e];
         }
-        router.push(pathname + '?' + createQueryString('characteristics', newCharacteristics.map((ch)=>ch ? ch.join(',') : '').join(':')))
+        router.push(pathname + '?' + createQueryString({name: 'characteristics', value: newCharacteristics.map((ch)=>ch ? ch.join(',') : '').join(':')}, true))
         setProductCharacteristics(newCharacteristics)
     }
-    useEffect(() => {
-        getProducts({
-            category,
-            section,
-            sortType,
-            promo: promo,
-            is_new: onlyNew,
-            sale: onlySale,
-            sizes: productSizes,
-            characteristics: productCharacteristics,
-            price: debouncedPrice,
-            page: currentPage
-        }).then((res)=>{
-            setProducts(res.products)
-            setProductCount(res.total)
-            setFilterCount(+onlyNew + +onlySale + +!!productSizes.length + productCharacteristics.filter(c => c != undefined && c.length).length + +(!!prices.min && (debouncedPrice[0] !== prices.min || debouncedPrice[1] !== prices.max)))
-        })
-    }, [searchParams]);
     const filters = characteristics ? [
         ...characteristics.map((ch) => (
             {
@@ -126,9 +135,8 @@ export default function Filters({currentPage, productCount, setProductCount, cha
                 ))
             }
         )),
-
     ] : [];
-    const resetFilters = ()=>{
+    const resetFilters = () => {
         setOnlySale(false);
         setOnlyNew(false);
         setProductCharacteristics([]);
@@ -136,55 +144,71 @@ export default function Filters({currentPage, productCount, setProductCount, cha
         setPrice([prices.min ?? 0, prices.max ?? 0])
         router.push(pathname)
     }
+    const activeKeys = [];
     const items: CollapseProps['items'] = [
-        ...filters.map((f,i) => {
+        ...filters.map((f, i) => {
+            if(productCharacteristics[i]?.length){
+                activeKeys.push(f.name)
+            }
             return {
                 key: f.name,
                 label: f.name,
                 className: clsx(s.collapse, productCharacteristics[i]?.length && s.activeCollapse),
                 children: <div className={s.filterOptions}>
                     {f.options.map(opt => (
-                        <div key={opt.id} className={clsx(productCharacteristics[i]?.includes(opt.id) && s.active, s.filterOption)} onClick={()=>choseCharacteristic(opt.id, i)}>{opt.name}</div>
+                        <div key={opt.id}
+                             className={clsx(productCharacteristics[i]?.includes(opt.id) && s.active, s.filterOption)}
+                             onClick={() => choseCharacteristic(opt.id, i)}>{opt.name}</div>
                     ))}
                 </div>,
             }
         }),
-
     ];
-    if(category){
-       items.push({
-           key: 'sizes',
-           label: 'Размеры',
-           className: clsx(s.collapse, productSizes.length && s.activeCollapse),
-           children: sizes?.length ? <div className={s.filterOptions}>
-               {sizes.map((size) => (
-                   <div key={size.id} className={clsx(productSizes.includes(size.id) && s.active, s.filterOption)} onClick={()=>choseSize(size.id)}>{size.name}</div>
-               ))}
-           </div> : <p>Размеры не найдены</p>
-       })
+    if (category) {
+        if(productSizes.length){
+            activeKeys.push('sizes')
+        }
+        items.push({
+            key: 'sizes',
+            label: 'Размеры',
+            className: clsx(s.collapse, productSizes.length && s.activeCollapse),
+            children: sizes?.length ? <div className={s.filterOptions}>
+                {sizes.map((size) => (
+                    <div key={size.id} className={clsx(productSizes.includes(size.id) && s.active, s.filterOption)}
+                         onClick={() => choseSize(size.id)}>{size.name}</div>
+                ))}
+            </div> : <p>Размеры не найдены</p>
+        })
     }
-    if(prices.min !== prices.max){
+    if (prices.min !== prices.max) {
+        if(prices.min && (price[0] !== prices.min || price[1] !== prices.max)){
+            activeKeys.push('price')
+        }
         items.push({
             key: 'price',
             label: 'Стоимость',
-            className: clsx(s.collapse, prices.min && (debouncedPrice[0] !== prices.min || debouncedPrice[1] !== prices.max) && s.activeCollapse),
+            className: clsx(s.collapse, prices.min && (price[0] !== prices.min || price[1] !== prices.max) && s.activeCollapse),
             children: prices.min ? <div className={s.priceFilter}>
                 <Slider range step={10} min={prices.min ?? 0}
-                        max={prices.max ?? 0} value={price} onChange={setPrice}/>
+                        max={prices.max ?? 0} value={price} onChange={setPrice} onChangeComplete={(e)=>{
+                    if (prices.max && ((price[0] !== prices.min || price[1] !== prices.max) || urlPrices)) {
+                        router.push(pathname + '?' + createQueryString({name: 'prices', value: e.join(',')}, true))
+                    }
+                }}/>
                 <div className={s.price}>
                     <p>{price[0]}₽</p>
                     <p>{price[1]}₽</p>
                 </div>
-            </div>: <p>Поиск по цене недоступен</p>
+            </div> : <p>Поиск по цене недоступен</p>
         })
     }
-    const sectionsList = useMemo(()=>{
+    const sectionsList = useMemo(() => {
         let filteredSections = []
-        if(sections){
-            for(let el of sections){
+        if (sections) {
+            for (let el of sections) {
                 if (el.is_uni && !el.sections.length) continue;
-                if(el.sections.length){
-                    for(let section of el.sections){
+                if (el.sections.length) {
+                    for (let section of el.sections) {
                         filteredSections.push({
                             value: section.link,
                             label: section.name
@@ -202,15 +226,14 @@ export default function Filters({currentPage, productCount, setProductCount, cha
     }, [sections])
     return (
         <div className={s.options}>
-
             <div className={s.filterType}>
                 <h3>Сортировка</h3>
                 <Select
                     defaultValue="name"
                     value={sortType}
-                    onChange={(e)=>{
+                    onChange={(e) => {
                         setSortType(e)
-                        router.push(pathname + '?' + createQueryString('sort', e))
+                        router.push(pathname + '?' + createQueryString({name: 'sort', value: e}, true))
                     }}
                     style={{width: '100%', height: 'auto'}}
                     suffixIcon={<CaretDownFilled/>}
@@ -223,13 +246,16 @@ export default function Filters({currentPage, productCount, setProductCount, cha
             {!category && !section && !promo && <div className={s.filterType}>
                 <h3>Раздел</h3>
                 <Select
+                    popupClassName={s.selectLinks}
                     placeholder={'не выбрано'}
                     style={{width: '100%', height: 'auto'}}
                     suffixIcon={<CaretDownFilled/>}
                     options={sectionsList}
-                    onChange={(el)=>{
-                        router.push(`/catalog/${el}`)
-                    }}
+                    optionRender={(option) => (
+                        <Link className={s.selectLink} href={`/catalog/${option.value}`}>
+                            {option.label}
+                        </Link>
+                    )}
                 />
 
             </div>}
@@ -237,6 +263,7 @@ export default function Filters({currentPage, productCount, setProductCount, cha
                 <h3>Категория</h3>
                 <Select
                     placeholder={'не выбрано'}
+                    popupClassName={s.selectLinks}
                     style={{width: '100%', height: 'auto'}}
                     suffixIcon={<CaretDownFilled/>}
                     options={categories?.map(el => (
@@ -246,9 +273,12 @@ export default function Filters({currentPage, productCount, setProductCount, cha
                             section_link: el.section?.link ?? ''
                         }
                     ))}
-                    onChange={(value, origin)=>{
-                        router.push(`/${Array.isArray(origin) ? origin[0].section_link : origin.section_link}/${value}`)
-                    }}
+                    optionRender={(option) => (
+                        <Link className={s.selectLink} href={`/${option.data.section_link}/${option.value}`}>
+                            {option.label}
+                        </Link>
+                    )}
+
                 />
             </div>}
             <div className={s.filterType}>
@@ -261,23 +291,25 @@ export default function Filters({currentPage, productCount, setProductCount, cha
                 </div>
                 <div className={s.flags}>
                     <div className={s.flag}>
-                        <Switch checked={onlyNew} onChange={(e)=>{
+                        <Switch checked={onlyNew} onChange={(e) => {
                             setOnlyNew(e)
-                            router.push(pathname + '?' + createQueryString('new', e ? "1" : ''))
+                            router.push(pathname + '?' + createQueryString({name: 'new', value: e ? "1" : ''}, true))
                         }}/>
                         <p>Новинка</p>
                     </div>
                     <div className={s.flag}>
-                        <Switch checked={onlySale} onChange={(e)=>{
+                        <Switch checked={onlySale} onChange={(e) => {
                             setOnlySale(e)
-                            router.push(pathname + '?' + createQueryString('sale', e ? "1" : ''))
+                            router.push(pathname + '?' + createQueryString({name: 'sale', value: e ? "1" : ''}, true))
                         }}/>
                         <p>Есть скидка</p>
                     </div>
                 </div>
-                <Collapse items={items} bordered={false}
+                <Collapse items={items} bordered={false} defaultActiveKey={activeKeys}
                           expandIcon={({isActive}) => <CaretRightOutlined rotate={isActive ? 90 : 0}/>}/>
             </div>
         </div>
     )
 }
+
+export default memo(Filters)

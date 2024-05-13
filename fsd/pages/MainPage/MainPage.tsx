@@ -5,7 +5,6 @@ import MainSections from "@/fsd/widgets/User/MainSections/MainSections";
 const MainPage = () => {
     return (
         <div className={s.wrapper}>
-            <Logo/>
             <MainSections/>
         </div>
     );

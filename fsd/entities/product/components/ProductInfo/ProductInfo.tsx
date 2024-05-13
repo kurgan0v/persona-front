@@ -30,7 +30,7 @@ export default function ProductInfo({product}: ProductInfoProps) {
                 <div className={s.wrapMagnifier}>
                     <SideBySideMagnifier inPlaceMinBreakpoint={576}
                                          imageSrc={(product.gallery && product.gallery[currentImage]) ? /https/.test(product.gallery[currentImage]) ? product.gallery[currentImage] : `${process.env.APP_BASE_URL}/files/${product.gallery[currentImage]}` : '/placeholder.svg'}
-                                         imageAlt="Example"
+                                         imageAlt={product.title}
                     />
                 </div>
                 <div className={s.gallery}>
