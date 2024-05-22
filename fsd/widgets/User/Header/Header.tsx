@@ -16,6 +16,7 @@ import {useCartStore} from "@/fsd/app/store/cart";
 import Burger from "@/fsd/shared/ui/icons/Burger/Burger";
 import {Suspense, useEffect, useState} from "react";
 import {Metrika} from "@/fsd/widgets/User/Metrika/Metrika";
+import {GoogleAnalytics} from "@/fsd/widgets/User/GoogleAnalytics/GoogleAnalytics";
 
 const Header = () => {
     const {data: sections, isSuccess, isError} = useQuery(['sections'], SectionsFetcher);
