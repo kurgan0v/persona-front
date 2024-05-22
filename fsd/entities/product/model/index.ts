@@ -15,13 +15,15 @@ export interface IProduct{
     meta_keywords?: string
     basic_price: number
     sale?: number
-    sale_type?: string
+    sale_type?: number
     is_new?: boolean
     promos?: string[]
     height?: number
     width?: number
     length?: number
     deleted?: boolean
+    minPrice?: number
+    maxPrice?: number
 }
 
 export interface IProductWithSection extends IProduct{

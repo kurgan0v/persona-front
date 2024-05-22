@@ -42,7 +42,7 @@ export default function EditProduct({id}: { id: string }) {
     const {
         data: dataPromos,
     } = useQuery(['promos_all'], PromosFetcher);
-    const [sale, setSale] = useState<string | undefined>();
+    const [sale, setSale] = useState<number | undefined>();
     const [sizes, setSizes] = useState<ISize[]>([]);
     const [characteristics, setCharacteristics] = useState<ICharacteristicType[] | undefined>();
     const [categories, setCategories] = useState<ICategory[] | undefined>();
@@ -200,6 +200,17 @@ export default function EditProduct({id}: { id: string }) {
                     <h3 className={s.subtitle}>Габариты упаковки</h3>
                     <div className={s.dimensions}>
                         <div>
+                            <Form.Item name={'length'} label={'Длина, см'} rules={[
+                                {
+                                    min: 0,
+                                    type: 'number',
+                                    message: 'Недопустимое значение'
+                                }
+                            ]}>
+                                <InputNumber controls={false} placeholder={'10'}/>
+                            </Form.Item>
+                        </div>
+                        <div>
                             <Form.Item name={'width'} label={'Ширина, см'} rules={[
                                 {
                                     min: 0,
@@ -221,24 +232,14 @@ export default function EditProduct({id}: { id: string }) {
                                 <InputNumber controls={false} placeholder={'10'}/>
                             </Form.Item>
                         </div>
-                        <div>
-                            <Form.Item name={'length'} label={'Длина, см'} rules={[
-                                {
-                                    min: 0,
-                                    type: 'number',
-                                    message: 'Недопустимое значение'
-                                }
-                            ]}>
-                                <InputNumber controls={false} placeholder={'10'}/>
-                            </Form.Item>
-                        </div>
+
 
                     </div>
                 </div>
                 <EditProductCharacteristics characteristics={characteristics} product={product}
                                             setCharacteristics={setCharacteristics} refetch={refetch}/>
                 <div className={s.block}>
-                    <h3 className={s.subtitle}>Стоимость</h3>
+                    <h3 className={s.subtitle}>Базовая стоимость</h3>
                     <div className={s.columns}>
                         <div>
                             <Form.Item name={'basic_price'} label={'Стоимость, ₽'}>
@@ -249,14 +250,14 @@ export default function EditProduct({id}: { id: string }) {
                             <Form.Item name={'sale_type'} label={'Скидка'}>
                                 <Select onChange={setSale} className={s.select} suffixIcon={<CaretDownFilled/>}
                                         allowClear placeholder={'нет'}>
-                                    <Option value={'fixed'}>Фиксированная</Option>
-                                    <Option value={'percents'}>В процентах</Option>
+                                    <Option value={0}>Фиксированная</Option>
+                                    <Option value={1}>В процентах</Option>
                                 </Select>
                             </Form.Item>
                         </div>
                         <div>
-                            {sale ? <Form.Item name={'sale'} label={`Величина скидки, ${sale === 'fixed' ? '₽' : '%'}`}>
-                                <InputNumber className={s.price} controls={false}/>
+                            {sale !== undefined ? <Form.Item name={'sale'} label={`Величина скидки, ${sale === 0 ? '₽' : '%'}`}>
+                                <InputNumber className={s.price} controls={false} placeholder={'50'} max={sale === 1 ? 99 : undefined}/>
                             </Form.Item>: null}
                         </div>
                     </div>

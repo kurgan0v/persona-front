@@ -15,9 +15,19 @@ export const useCartTotal = (items?:ICartItem[]) => {
             getCartItems(Array.from(ids)).then((res) => {
                 setProducts(res)
                 const totals = items.map(item => {
+
                     const product = res.find(el => el.id === item.product_id)
-                    const price = product?.sale ? product.sale_type === "percents" ? product.basic_price * (100 - product.sale)/100 : product.basic_price - product.sale : product?.basic_price;
-                    return (item.quantity ?? 0) * (price ?? 0)
+                    const size = product?.sizes.find((el) => el.id === item.size_id)?.ProductSize
+                    const price = (size?.price
+                        ? size.price
+                        : product?.basic_price) || 0;
+                    const salePrice = product?.sale
+                        ? product.sale_type === 1
+                            ? (price * (100 - product.sale) / 100)
+                            : (price - product.sale)
+                        : 0;
+                    //const price = product?.sale ? product.sale_type === "percents" ? product.basic_price * (100 - product.sale)/100 : product.basic_price - product.sale : product?.basic_price;
+                    return (item.quantity ?? 0) * (salePrice ? salePrice : price ?? 0)
                 })
                 setCount(items.reduce((a, b)=>{
                     return a + (b.quantity ?? 0)

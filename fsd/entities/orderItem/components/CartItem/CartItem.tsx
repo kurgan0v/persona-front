@@ -23,8 +23,16 @@ export default function CartItem({item, product}: {item: ICartItem, product?: IP
     const deleteItem = () =>{
         cartStore.deleteItem({product_id: item.product_id, size_id: item.size_id})
     }
-    const price = product?.sale ? product.sale_type === "percents" ? product.basic_price * (100 - product.sale)/100 : product.basic_price - product.sale : product?.basic_price;
-    const quantity = product?.sizes.find((el) => el.id === item.size_id)?.ProductSize?.quantity ?? 0;
+    const size = product?.sizes.find((el) => el.id === item.size_id)?.ProductSize
+    const price = (size?.price
+        ? size.price
+        : product?.basic_price) || 0;
+    const salePrice = product?.sale
+        ? product.sale_type === 1
+            ? (price * (100 - product.sale) / 100)
+            : (price - product.sale)
+        : 0;
+    const quantity = size?.quantity ?? 0;
     useEffect(() => {
         if(product){
             if(quantity <= (cartStore?.items.find(el => el.product_id === product?.id && el.size_id === item.size_id)?.quantity ?? 1)){
@@ -48,8 +56,8 @@ export default function CartItem({item, product}: {item: ICartItem, product?: IP
             <div className={s.actions}>
                 {quantity > 0 ? <>
                     <div className={s.priceWrapper}>
-                        <p className={clsx(s.price, product?.sale && s.oldPrice)}>{product?.basic_price.toLocaleString()} ₽</p>
-                        {product?.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? (product.basic_price * (100 - product.sale)/100).toLocaleString() : (product.basic_price - product.sale).toLocaleString()} ₽</p>}
+                        {product?.sale && <span className={s.oldPrice}>{price.toLocaleString()} ₽</span>}
+                        <span className={clsx(product?.sale && s.newPrice)}>{product?.sale ? salePrice.toLocaleString() : price.toLocaleString()} ₽</span>
                     </div>
                     <div className={s.quantity}>
                         <Button className={s.quantityAction} onClick={minus}>
@@ -60,7 +68,7 @@ export default function CartItem({item, product}: {item: ICartItem, product?: IP
                             <Plus/>
                         </Button>
                     </div>
-                    <p className={clsx(s.price, s.subtotal)}>{((price && item.quantity) && price * item.quantity)?.toLocaleString()} ₽</p>
+                    <p className={clsx(s.price, s.subtotal)}>{((price && item.quantity) && (item.quantity * (salePrice ? salePrice : price)))?.toLocaleString()} ₽</p>
                 </> : <p>Данный товар недоступен</p>}
                 <Delete className={s.icon} description={'Вы уверены, что хотите удалить этот товар из корзины?'} onConfirm={deleteItem}/>
             </div>

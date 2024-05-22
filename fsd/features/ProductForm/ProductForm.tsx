@@ -6,7 +6,7 @@ import ButtonRound from "@/fsd/shared/ui/ButtonRound/ButtonRound";
 import Image from "next/image";
 import Favorite from "@/fsd/shared/ui/icons/Favorite/Favorite";
 import {clsx} from "clsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useFavoritesStore} from "@/fsd/app/store/favorites";
 import {useCartStore} from "@/fsd/app/store/cart";
 import Minus from "@/fsd/shared/ui/icons/Minus/Minus";
@@ -20,6 +20,7 @@ import {UploadOutlined} from "@ant-design/icons";
 export default function ProductForm({product}: {product: IProductDetail}){
     const { message } = App.useApp();
     const [form] = Form.useForm();
+    const [price, setPrice] = useState(product.minPrice ?? product.basic_price);
     const [showAllSizes, setShowAllSizes] = useState(product.category?.sizes?.length ? product.category?.sizes?.length < 10 : true)
     const [openRequest, setOpenRequest] = useState(false);
     const {mutateAsync: sendRequest} = useMutation(RequestCreateFetcher);
@@ -32,6 +33,12 @@ export default function ProductForm({product}: {product: IProductDetail}){
             cartStore?.addItem({product_id: product.id, size_id: currentSize, quantity: 1})
         }
     }
+    useEffect(() => {
+        if(currentSize){
+            const fromSize = product.sizes.find(el => el.id === currentSize)?.ProductSize?.price
+            setPrice(fromSize ? fromSize : product.basic_price)
+        }
+    }, [currentSize]);
     const plus = ()=>{
         if(currentSize){
             cartStore?.increaseValue({product_id: product.id, size_id: currentSize})
@@ -58,8 +65,10 @@ export default function ProductForm({product}: {product: IProductDetail}){
             </div>
             <div className={s.actions}>
                 <div className={s.priceWrapper}>
-                    <p className={clsx(s.price, product.sale && s.oldPrice)}>{product.basic_price.toLocaleString()} ₽</p>
-                    {product.sale && <p className={clsx(s.price, s.newPrice)}>{product.sale_type === "percents" ? (product.basic_price * (100 - product.sale)/100).toLocaleString() : (product.basic_price - product.sale).toLocaleString()} ₽</p>}
+                    {product?.sale && <span className={s.oldPrice}>{price.toLocaleString()} ₽</span>}
+                    <span className={clsx(product?.sale && s.newPrice)}>{product?.sale ? (product.sale_type === 1
+                        ? (price * (100 - product.sale) / 100)
+                        : (price - product.sale)).toLocaleString() : price.toLocaleString()} ₽</span>
                 </div>
                 <div className={s.actionsMain}>
                     {cartStore?.items.find(el => el.product_id === product.id && el.size_id === currentSize)?.quantity ? <div className={s.quantity}>

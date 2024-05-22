@@ -7,6 +7,7 @@ export interface ISize{
     ProductSize?: {
         quantity: number
         barcodeId: string
+        price?: number
     }
 }
 export interface IProductSize{
