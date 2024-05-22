@@ -1,4 +1,5 @@
 'use client';
+import { GoogleTagManager } from '@next/third-parties/google'
 import s from './Header.module.scss';
 import Link from "next/link";
 import {Badge, Dropdown} from "antd";
@@ -33,6 +34,9 @@ const Header = () => {
             {process.env.NODE_ENV === 'production' && <Suspense>
                 <Metrika/>
                 <GoogleAnalytics/>
+                <GoogleTagManager gtmId={'GTM-NB7G97XZ'}/>
+                <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB7G97XZ"
+                                  height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>
             </Suspense>}
             <div className={clsx(s.logo, s.logoMobile)}>
                 <Image src={'/logo.png'} alt={'Ателье Персона'} fill/>
