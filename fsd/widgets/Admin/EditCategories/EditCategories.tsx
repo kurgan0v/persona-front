@@ -189,9 +189,6 @@ export default function EditCategories() {
                     <Form.Item name={'seo_description'} label={'SEO описание'}>
                         <Input placeholder={'Женская одежда в Саратове: костюмы для девушек в разных цветах и размерах'}/>
                     </Form.Item>
-                    <Form.Item name={'seo_keywords'} label={'Ключевые слова'}>
-                        <Input placeholder={'персона, ателье саратов, одежда, женская одежда'}/>
-                    </Form.Item>
                     <Form.Item>
                         <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
                     </Form.Item>

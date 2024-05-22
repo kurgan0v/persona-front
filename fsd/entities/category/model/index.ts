@@ -10,7 +10,6 @@ export interface ICategory{
     show_size_chart?: boolean
     seo_title?: string
     seo_description?: string
-    seo_keywords?: string
     section?: {
         link: string
         is_uni?: boolean

@@ -29,16 +29,10 @@ export default function MainSeoForm(){
             <Form.Item name={'seo_description'} label={'SEO-описание'}>
                 <Input/>
             </Form.Item>
-            <Form.Item name={'seo_keywords'} label={'Ключевые слова'}>
-                <Input/>
-            </Form.Item>
             <Form.Item name={'seo_personal_title'} label={'SEO-заголовок на странице пошива'}>
                 <Input/>
             </Form.Item>
             <Form.Item name={'seo_personal_description'} label={'SEO-описание на странице пошива'}>
-                <Input/>
-            </Form.Item>
-            <Form.Item name={'seo_personal_keywords'} label={'Ключевые слова на странице пошива'}>
                 <Input/>
             </Form.Item>
             <Form.Item>

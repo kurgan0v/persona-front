@@ -23,5 +23,4 @@ export type IContactsFetcher = {
 export type IMainSeoFetcher = {
     title: string
     description: string
-    keywords: string
 }

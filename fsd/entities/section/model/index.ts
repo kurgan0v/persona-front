@@ -7,7 +7,6 @@ export interface ISection {
     order?: number
     seo_title?: string
     seo_description?: string
-    seo_keywords?: string
     is_uni?: boolean
 }
 export interface ISectionView extends ISection{

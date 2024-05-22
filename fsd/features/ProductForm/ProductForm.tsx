@@ -36,7 +36,7 @@ export default function ProductForm({product}: {product: IProductDetail}){
     useEffect(() => {
         if(currentSize){
             const fromSize = product.sizes.find(el => el.id === currentSize)?.ProductSize?.price
-            setPrice(fromSize ? fromSize : product.basic_price)
+            setPrice(fromSize !== undefined ? fromSize : product.basic_price)
         }
     }, [currentSize]);
     const plus = ()=>{

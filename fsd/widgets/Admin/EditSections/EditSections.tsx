@@ -89,9 +89,6 @@ export default function EditSections(){
                     <Form.Item name={'seo_description'} label={'SEO описание'}>
                         <Input.TextArea/>
                     </Form.Item>
-                    <Form.Item name={'seo_keywords'} label={'Ключевые слова'}>
-                        <Input.TextArea/>
-                    </Form.Item>
                     <Form.Item>
                         <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
                     </Form.Item>

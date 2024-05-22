@@ -191,6 +191,9 @@ export default function EditProduct({id}: { id: string }) {
                 ]}>
                     <Input placeholder={'Рубашка белая'} showCount/>
                 </Form.Item>
+                <Form.Item name={'vendor_code'} label={'Артикул склада'}>
+                    <Input.TextArea placeholder={'арт0001'} showCount maxLength={255} rows={1}/>
+                </Form.Item>
                 <Form.Item name={'description'} label={'Описание товара'}>
                     <Input.TextArea
                         placeholder={'Рубашка из базовой коллекции. Подходит как для деловых совещаний, так и для встреч с друзьями.'}
@@ -267,14 +270,14 @@ export default function EditProduct({id}: { id: string }) {
                     <h3 className={s.subtitle}>SEO</h3>
                     <div className={s.columns}>
                         <div>
-                            <Form.Item name={'meta_desc'} label={'Описание'}>
-                                <Input.TextArea placeholder={'Рубашка для офиса'} rows={3} showCount/>
+                            <Form.Item name={'seo_title'} label={'Заголовок страницы'}>
+                                <Input.TextArea placeholder={'Рубашка для офиса'} rows={3} showCount maxLength={255}/>
                             </Form.Item>
+
                         </div>
                         <div>
-                            <Form.Item name={'meta_keywords'} label={'Ключевые слова'}>
-                                <Input.TextArea placeholder={'рубашка, костюм, белая рубашка'} rows={3}
-                                                showCount/>
+                            <Form.Item name={'meta_desc'} label={'Описание'}>
+                                <Input.TextArea placeholder={'Рубашка для офиса'} rows={3} showCount/>
                             </Form.Item>
                         </div>
                     </div>

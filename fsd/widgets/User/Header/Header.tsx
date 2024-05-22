@@ -31,6 +31,7 @@ const Header = () => {
         <>
             {process.env.NODE_ENV === 'production' && <Suspense>
                 <Metrika/>
+                <GoogleAnalytics/>
             </Suspense>}
             <div className={clsx(s.logo, s.logoMobile)}>
                 <Image src={'/logo.png'} alt={'Ателье Персона'} fill/>

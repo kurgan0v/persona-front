@@ -12,7 +12,6 @@ export interface IProduct{
     detmir?: string
     is_popular?: boolean
     meta_desc?: string
-    meta_keywords?: string
     basic_price: number
     sale?: number
     sale_type?: number
@@ -24,6 +23,8 @@ export interface IProduct{
     deleted?: boolean
     minPrice?: number
     maxPrice?: number
+    seo_title?: string
+    vendor_code?: string
 }
 
 export interface IProductWithSection extends IProduct{

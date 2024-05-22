@@ -8,7 +8,6 @@ export type SectionUpdateFetcherRequest = {
     cover?: string
     seo_title?: string
     seo_description?: string
-    seo_keywords?: string
 }
 
 export type SectionFetcherResponse = {

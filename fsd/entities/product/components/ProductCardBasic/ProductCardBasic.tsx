@@ -4,8 +4,8 @@ import {clsx} from "clsx";
 import {IProductDetail} from "@/fsd/entities/product/model";
 
 export default function ProductCardBasic({product}: { product: IProductDetail }) {
-    const price = product.minPrice
-        ? product.minPrice
+    const price = product.minPrice !== undefined
+        ? product.minPrice || 1
         : product.basic_price
     const salePrice = product.sale
         ? product.sale_type === 1
