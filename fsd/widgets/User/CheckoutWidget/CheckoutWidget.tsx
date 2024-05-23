@@ -44,20 +44,6 @@ export default function CheckoutWidget() {
             if(cart?.items.filter(el => !cartInfo.products?.find(c => c.id === el.product_id)).length){
                 push('/cart')
             }
-            sendGTMEvent({
-                event: 'begin_checkout',
-                ecommerce: {
-                    items: cartInfo.products.map(el => ({
-                        item_id: el.id,
-                        item_name: el.title,
-                        item_category: el.category?.name,
-                        item_section: el.category?.section.name,
-                        quantity: 1
-                    })),
-                    total: cartInfo.total,
-                    count: cartInfo.count
-                }
-            })
         }
     }, [cart, cartInfo]);
     const {data: regions, isSuccess: isSuccessRegions} = useQuery(['regions'], GetRegions);

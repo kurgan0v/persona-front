@@ -12,6 +12,7 @@ import {Button} from "antd";
 import Link from "next/link";
 import {useCartTotal} from "@/fsd/app/hooks/useCartTotal";
 import {ICartItem} from "@/fsd/entities/cartItem/model";
+import {sendGTMEvent} from "@next/third-parties/google";
 
 export default function CartItems() {
     const cart = useStore(useCartStore, (data) => data)
@@ -32,7 +33,22 @@ export default function CartItems() {
                             <p className={s.price}>{cartInfo.total.toLocaleString()} ₽</p>
                         </div>
                     </div>
-                    <Button type={'primary'} disabled={!!cart?.items.filter(el => !cartInfo.products?.find(c => c.id === el.product_id)).length}><Link href={'/checkout'}>Продолжить</Link></Button></> :
+                    <Button type={'primary'} disabled={!!cart?.items.filter(el => !cartInfo.products?.find(c => c.id === el.product_id)).length} onClick={()=>{
+                        sendGTMEvent({
+                            event: 'begin_checkout',
+                            ecommerce: {
+                                items: cartInfo.products?.map(el => ({
+                                    item_id: el.id,
+                                    item_name: el.title,
+                                    item_category: el.category?.name,
+                                    item_section: el.category?.section.name,
+                                    quantity: 1
+                                })) ?? [],
+                                total: cartInfo.total,
+                                count: cartInfo.count
+                            }
+                        })
+                    }}><Link href={'/checkout'}>Продолжить</Link></Button></> :
                 <Empty title={'Вы еще ничего не добавили'}/>}
         </>
     )
