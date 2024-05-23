@@ -16,6 +16,7 @@ import {GetCities, GetDeliveryCost, GetDeliveryPoints, GetRegions} from "@/fsd/s
 import {clsx} from "clsx";
 import {City} from "@/fsd/shared/api/cdek/types";
 import Link from "next/link";
+import {sendGTMEvent} from "@next/third-parties/google";
 interface CdekDelivery{
     tariff_code: number
     code: string
@@ -43,6 +44,20 @@ export default function CheckoutWidget() {
             if(cart?.items.filter(el => !cartInfo.products?.find(c => c.id === el.product_id)).length){
                 push('/cart')
             }
+            sendGTMEvent({
+                event: 'begin_checkout',
+                ecommerce: {
+                    items: cartInfo.products.map(el => ({
+                        item_id: el.id,
+                        item_name: el.title,
+                        item_category: el.category?.name,
+                        item_section: el.category?.section.name,
+                        quantity: 1
+                    })),
+                    total: cartInfo.total,
+                    count: cartInfo.count
+                }
+            })
         }
     }, [cart, cartInfo]);
     const {data: regions, isSuccess: isSuccessRegions} = useQuery(['regions'], GetRegions);
@@ -119,6 +134,21 @@ export default function CheckoutWidget() {
                             }
                             message.success('Ваш заказ принят')
                             cart.setOrderNumber(r.id);
+                            sendGTMEvent({
+                                event: 'purchase',
+                                ecommerce: {
+                                    order_number: r.id,
+                                    value: r.total,
+                                    shipping: r.delivery_cost,
+                                    items: r.OrderItems.map(el => ({
+                                        item_id: el.product_id,
+                                        item_name: el.title,
+                                        item_size: el.size,
+                                        price: el.sale_price ? el.sale_price : el.price,
+                                        quantity: el.quantity,
+                                    }))
+                                }
+                            })
                             cart.clearCart();
                         }).catch(async (e) => {
                             await message.error(e.response.data)

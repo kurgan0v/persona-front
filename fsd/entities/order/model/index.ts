@@ -25,6 +25,7 @@ export interface IOrder{
     invoice_id?: string
     payment_link?: string
     payment_approved?: boolean
+    total?: number
 }
 export interface IOrderItem {
     id: string

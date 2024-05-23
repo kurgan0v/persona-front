@@ -1,5 +1,5 @@
 'use client';
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
 import s from './Header.module.scss';
 import Link from "next/link";
 import {Badge, Dropdown} from "antd";
@@ -17,7 +17,6 @@ import {useCartStore} from "@/fsd/app/store/cart";
 import Burger from "@/fsd/shared/ui/icons/Burger/Burger";
 import {Suspense, useEffect, useState} from "react";
 import {Metrika} from "@/fsd/widgets/User/Metrika/Metrika";
-import {GoogleAnalytics} from "@/fsd/widgets/User/GoogleAnalytics/GoogleAnalytics";
 
 const Header = () => {
     const {data: sections, isSuccess, isError} = useQuery(['sections'], SectionsFetcher);
@@ -33,7 +32,7 @@ const Header = () => {
         <>
             {process.env.NODE_ENV === 'production' && <Suspense>
                 <Metrika/>
-                <GoogleAnalytics/>
+                <GoogleAnalytics gaId={'G-XYY9FZT2PE'}/>
                 <GoogleTagManager gtmId={'GTM-NB7G97XZ'}/>
                 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB7G97XZ"
                                   height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>

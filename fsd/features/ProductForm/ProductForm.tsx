@@ -16,6 +16,7 @@ import {useMutation} from "react-query";
 import {RequestCreateFetcher} from "@/fsd/shared/api/request";
 import {MaskedInput} from "antd-mask-input";
 import {UploadOutlined} from "@ant-design/icons";
+import {sendGTMEvent} from "@next/third-parties/google";
 
 export default function ProductForm({product}: {product: IProductDetail}){
     const { message } = App.useApp();
@@ -29,6 +30,18 @@ export default function ProductForm({product}: {product: IProductDetail}){
     const [currentSize, setCurrentSize] = useState<string | undefined>();
     const [openSizeTable, setOpenSizeTable] = useState(false);
     const addToCart = ()=>{
+        sendGTMEvent({
+            event: 'add_to_cart',
+            ecommerce: {
+                items: [{
+                    item_id: product.id,
+                    item_name: product.title,
+                    item_category: product.category?.name,
+                    item_section: product.category?.section.name,
+                    price: price
+                }]
+            }
+        })
         if(currentSize){
             cartStore?.addItem({product_id: product.id, size_id: currentSize, quantity: 1})
         }
