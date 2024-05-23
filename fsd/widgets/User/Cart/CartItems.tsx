@@ -13,10 +13,12 @@ import Link from "next/link";
 import {useCartTotal} from "@/fsd/app/hooks/useCartTotal";
 import {ICartItem} from "@/fsd/entities/cartItem/model";
 import {sendGTMEvent} from "@next/third-parties/google";
+import {useRouter} from "next/navigation";
 
 export default function CartItems() {
     const cart = useStore(useCartStore, (data) => data)
     const cartInfo = useCartTotal(cart?.items);
+    const {push} = useRouter();
     return (
         <>
             {cart?.items?.length ?
@@ -48,7 +50,8 @@ export default function CartItems() {
                                 count: cartInfo.count
                             }
                         })
-                    }}><Link href={'/checkout'}>Продолжить</Link></Button></> :
+                        push('checkout')
+                    }}>Продолжить</Button></> :
                 <Empty title={'Вы еще ничего не добавили'}/>}
         </>
     )
