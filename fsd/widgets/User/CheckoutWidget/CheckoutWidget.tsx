@@ -138,7 +138,7 @@ export default function CheckoutWidget() {
                                 event: 'purchase',
                                 ecommerce: {
                                     order_number: r.id,
-                                    value: r.total,
+                                    total: r.total,
                                     shipping: r.delivery_cost,
                                     items: r.OrderItems.map(el => ({
                                         item_id: el.product_id,
