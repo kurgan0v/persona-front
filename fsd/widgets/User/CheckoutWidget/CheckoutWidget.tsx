@@ -118,8 +118,6 @@ export default function CheckoutWidget() {
                             if(r.paymentInfo) {
                                 window.open(r.paymentInfo.paymentLink)
                             }
-                            message.success('Ваш заказ принят')
-                            cart.setOrderNumber(r.id);
                             sendGTMEvent({
                                 event: 'purchase',
                                 ecommerce: {
@@ -135,6 +133,8 @@ export default function CheckoutWidget() {
                                     }))
                                 }
                             })
+                            message.success('Ваш заказ принят')
+                            cart.setOrderNumber(r.id);
                             cart.clearCart();
                         }).catch(async (e) => {
                             await message.error(e.response.data)
