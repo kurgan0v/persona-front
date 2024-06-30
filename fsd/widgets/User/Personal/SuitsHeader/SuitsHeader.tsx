@@ -24,13 +24,13 @@ export default function SuitsHeader({setModal}: SuitsHeaderProps){
             <motion.ul className={s.suits} variants={container}
                        initial="hidden"
                        whileInView="visible" viewport={{ once: true }} >
-                <motion.li variants={item}>
+                <motion.li className={s.imageWrapper} variants={item}>
                     <CustomImage className={s.image} webImage={true} height={1000} width={1000} src={'/suits/suit1.jpeg'} alt={''}/>
                 </motion.li>
-                <motion.li variants={item}>
+                <motion.li className={s.imageWrapper} variants={item}>
                     <CustomImage className={s.image} webImage={true} height={1000} width={1000} src={'/suits/suit2.jpeg'} alt={''}/>
                 </motion.li>
-                <motion.li variants={item}>
+                <motion.li className={s.imageWrapper} variants={item}>
                     <CustomImage className={s.image} webImage={true} height={1000} width={1000} src={'/suits/suit3.jpeg'} alt={''}/>
                 </motion.li>
             </motion.ul>

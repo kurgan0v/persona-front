@@ -43,7 +43,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 16rem 16rem;
   }
-  .image{
+  .imageWrapper{
     &:first-of-type{
       grid-row-start: 1;
       grid-row-end: 3;
