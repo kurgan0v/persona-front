@@ -1,0 +1,28 @@
+.benefits{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 20rem;
+  gap: 1.5rem;
+}
+.benefit{
+  position: relative;
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(360deg, rgba(11, 30, 39, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  img{
+    z-index: -1;
+  }
+  p{
+    color: var(--background);
+    max-width: 30rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--grey);
+  }
+}
+@media screen and (max-width: 768px){
+  .benefits{
+    grid-template-columns: 1fr;
+    grid-template-rows: 20rem 20rem;
+  }
+}

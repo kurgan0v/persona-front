@@ -7,10 +7,14 @@ import {useMutation} from "react-query";
 import {RequestCreateFetcher} from "@/fsd/shared/api/request";
 import {MaskedInput} from "antd-mask-input";
 
-export default function RequestWidget(){
+interface RequestWidgetProps {
+    modal: boolean
+    setModal: React.Dispatch<React.SetStateAction<boolean>>
+    type: 0 | 2
+}
+export default function RequestWidget({modal, setModal, type}: RequestWidgetProps){
     const { message } = App.useApp();
     const [form] = Form.useForm();
-    const [modal, setModal] = useState(false);
     const [list , setList] = useState<UploadFile[]>([])
     const {mutateAsync: sendRequest} = useMutation(RequestCreateFetcher);
     const props: UploadProps = {
@@ -32,7 +36,7 @@ export default function RequestWidget(){
     };
     return(
         <>
-            <Button type={'primary'} onClick={()=>setModal(true)}>Оставить заявку</Button>
+
             <Modal
                 open={modal}
                 onCancel={()=>setModal(false)}
@@ -44,7 +48,7 @@ export default function RequestWidget(){
                     layout={'vertical'}
                     form={form}
                     initialValues={{
-                        type: 0
+                        type: type
                     }}
                     className={s.form}
                     onFinish={async (e)=>{

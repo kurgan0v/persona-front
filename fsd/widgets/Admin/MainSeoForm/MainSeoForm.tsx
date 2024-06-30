@@ -35,6 +35,12 @@ export default function MainSeoForm(){
             <Form.Item name={'seo_personal_description'} label={'SEO-описание на странице пошива'}>
                 <Input/>
             </Form.Item>
+            <Form.Item name={'seo_suits_title'} label={'SEO-заголовок на странице пошива костюмов'}>
+                <Input/>
+            </Form.Item>
+            <Form.Item name={'seo_suits_description'} label={'SEO-описание на странице пошива костюмов'}>
+                <Input/>
+            </Form.Item>
             <Form.Item>
                 <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
             </Form.Item>

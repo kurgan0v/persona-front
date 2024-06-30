@@ -16,7 +16,9 @@ html {
 .main {
   @include fluid(font-size, 14px, 16px);
 }*/
-
+main{
+  overflow-x: hidden;
+}
 h1, h2{
   font-family: var(--font-linguistics);
   font-weight: 900;

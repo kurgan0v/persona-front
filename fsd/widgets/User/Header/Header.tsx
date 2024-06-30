@@ -18,6 +18,16 @@ import Burger from "@/fsd/shared/ui/icons/Burger/Burger";
 import {Suspense, useEffect, useState} from "react";
 import {Metrika} from "@/fsd/widgets/User/Metrika/Metrika";
 
+const routes = [
+    {
+        name: 'Пошив одежды',
+        link: '/personal'
+    },
+    {
+        name: 'Пошив костюмов',
+        link: '/personal/suits'
+    },
+]
 const Header = () => {
     const {data: sections, isSuccess, isError} = useQuery(['sections'], SectionsFetcher);
     const pathname = usePathname();
@@ -58,14 +68,12 @@ const Header = () => {
                                 l.sections.length ? <Dropdown
                                     className={clsx(s.mainLink, (activeRoute === 'boys' || activeRoute === 'girls') && s.activeLink)}
                                     key={l.id} menu={{
-                                    items: l.sections.map(sub => {
-                                        return {
-                                            key: sub.id,
-                                            label: <Link
-                                                className={clsx(s.mainLink, activeRoute === sub.link && s.activeLink)}
-                                                href={`/${sub.link}`}>{sub.name}</Link>
-                                        }
-                                    })
+                                    items: l.sections.map(sub => ({
+                                        key: sub.id,
+                                        label: <Link
+                                            className={clsx(s.mainLink, activeRoute === sub.link && s.activeLink)}
+                                            href={`/${sub.link}`}>{sub.name}</Link>
+                                    }))
                                 }} placement="bottomLeft">
                                     <p>{l.name}</p>
                                 </Dropdown> : <Link href={`/${l.link}`} key={l.id}
@@ -73,7 +81,18 @@ const Header = () => {
                             ))}
                         </div>
                         <div className={s.otherLinks}>
-                            <Link className={s.otherLink} href={`/personal`}>Индивидуальный<br/> пошив</Link>
+                            <Dropdown
+                                className={clsx(s.otherLink, activeRoute === 'personal' && s.activeLink)}
+                                menu={{
+                                items: routes.map(r => ({
+                                    key: r.link,
+                                    label: <Link
+                                        className={clsx(s.mainLink, pathname === r.link && s.activeLink)}
+                                        href={`${r.link}`}>{r.name}</Link>
+                                }))
+                            }} placement="bottomLeft">
+                                <p>Индивидуальный<br/> пошив</p>
+                            </Dropdown>
                             <Link
                                 className={clsx(s.otherLink, activeRoute === 'uniform' && s.activeLink)}
                                 href={`/uniform`}>Форменное и военное<br/> обмундирование</Link>

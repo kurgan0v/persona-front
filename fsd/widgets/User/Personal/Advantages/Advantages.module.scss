@@ -1,0 +1,35 @@
+.advantages{
+  display: grid;
+  row-gap: 2rem;
+  column-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}
+.advantage{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  p{
+    margin-right: 1rem;
+  }
+}
+
+.advantageImage{
+  height: 17rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  position: relative;
+  h2{
+    position: relative;
+    z-index: 2;
+    color: var(--background);
+  }
+}
+@media screen and (max-width: 768px){
+  .advantages{
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  }
+  .advantage{
+    gap: 1rem;
+  }
+}

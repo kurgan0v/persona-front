@@ -1,0 +1,14 @@
+.cases{
+  width: 100%;
+  :global(.swiper){
+    overflow: visible;
+  }
+}
+.case{
+  height: 32rem;
+}
+@media screen and (max-width: 768px) {
+  .case{
+    height: 25rem;
+  }
+}

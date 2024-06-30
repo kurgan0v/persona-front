@@ -129,7 +129,12 @@
 .ant-select .ant-select-arrow .anticon:not(.ant-select-suffix){
   pointer-events: none;
 }
-
+.ant-dropdown .ant-dropdown-menu{
+  padding: 8px;
+}
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item{
+  padding: 8px 12px;
+}
 @media (max-width: 768px) {
   .ant-btn-primary, .ant-btn{
     padding: 0.8rem 2rem;

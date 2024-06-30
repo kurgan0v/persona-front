@@ -13,7 +13,7 @@ export default function AntdThemeProvider({children}:{children: React.ReactNode}
                     colorPrimaryHover: '#d95b45',
                     colorTextBase: '#0B1E27',
                     borderRadius: 3,
-                    fontFamily: `'Open Sans', sans-serif`,
+                    fontFamily: `inherit`,
                     fontSize: 16
                 },
             }}

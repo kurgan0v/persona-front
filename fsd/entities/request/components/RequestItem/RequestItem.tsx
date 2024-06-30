@@ -36,7 +36,7 @@ export default function RequestItem({request, setEditModal}: RequestItemProps){
                 </div>
             </div>
             <div className={clsx(s.details, open && s.active)}>
-                {request.type === 0 ? <>
+                {request.type !== 1 ? <>
                     {request.comment &&  <p><b>Комментарий пользователя: </b>{request.comment}</p>}
                     {request.admin_comment &&  <p><b>Описание заявки: </b>{request.admin_comment}</p>}
                     {!!request.attachments?.length && <div className={s.images}>
