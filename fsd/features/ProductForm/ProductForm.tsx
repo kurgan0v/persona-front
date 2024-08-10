@@ -21,7 +21,7 @@ import {sendGTMEvent} from "@next/third-parties/google";
 export default function ProductForm({product}: {product: IProductDetail}){
     const { message } = App.useApp();
     const [form] = Form.useForm();
-    const [price, setPrice] = useState(product.minPrice ?? product.basic_price);
+    const [price, setPrice] = useState(product.minPrice ? product.minPrice : product.basic_price);
     const [showAllSizes, setShowAllSizes] = useState(product.category?.sizes?.length ? product.category?.sizes?.length < 10 : true)
     const [openRequest, setOpenRequest] = useState(false);
     const {mutateAsync: sendRequest} = useMutation(RequestCreateFetcher);
